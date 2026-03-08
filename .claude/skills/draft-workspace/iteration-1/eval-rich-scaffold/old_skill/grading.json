@@ -1,0 +1,42 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-draft",
+  "configuration": "old_skill",
+  "expectations": [
+    {
+      "text": "Asks pointed questions before writing prose, grounding the section in specifics",
+      "passed": true,
+      "evidence": "Asks 3 questions: (1) what 'discusses with boss — ineffective' actually looked like, (2) whether 'PRD is theater' is general or specific, (3) what happened during those weeks. Questions reference specific text from the lesson."
+    },
+    {
+      "text": "Pulls specific details from other sections of the lesson file to inform the draft",
+      "passed": true,
+      "evidence": "Pulls '4-10 weeks', the merchant pinning example, '50% of the time we got it wrong', and the 'incremental improvements — a PRD might actually be faster' quote from other sections."
+    },
+    {
+      "text": "Generates suggested prose for the target section",
+      "passed": true,
+      "evidence": "Full 'Suggested Prose' section with 4 paragraphs, explicitly noting all claims trace to existing content in the file."
+    },
+    {
+      "text": "Flags sentences or claims the author should verify — does not assume all inferences are correct",
+      "passed": true,
+      "evidence": "4 flags: whether boss literally never read PRDs, whether merchant pinning example undercuts later impact, whether '50%' should be positioned here, whether last paragraph is too concessive."
+    },
+    {
+      "text": "Prose sounds like the author (direct, first-person, honest) not generic AI writing",
+      "passed": true,
+      "evidence": "First-person, direct style. Uses author's own phrasing ('bureaucratic function'). 'Does This Sound Like You?' section specifically asks about tone calibration."
+    },
+    {
+      "text": "Provides a readback or verification section checking whether prose matches author's intent",
+      "passed": true,
+      "evidence": "'Flags' section with 4 items plus 'Does This Sound Like You?' section that identifies two specific sentences to read aloud and calibrate."
+    },
+    {
+      "text": "Stays focused on the requested section, does not draft the entire lesson",
+      "passed": true,
+      "evidence": "Focused entirely on 'The Problem This Solves'. Uses other sections as context, not targets."
+    }
+  ]
+}

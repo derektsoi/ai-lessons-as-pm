@@ -1,0 +1,12 @@
+{
+  "eval_id": 2,
+  "eval_name": "thin-scaffold-challenge",
+  "configuration": "old_skill",
+  "expectations": [
+    {"text": "Challenges the premise itself (should designers use Claude Code?) rather than just surface-level claims", "passed": true, "evidence": "Challenges premise via survivorship bias (your constraint doesn't exist for designers) and attribution error (prompt ≠ design brief)."},
+    {"text": "Calls out that the author may be projecting enthusiasm onto designers", "passed": true, "evidence": "Challenge 5 (audience projection): 'person A finds something useful, assumes person B should use it too.' Challenge 6 calls this 'replacing part of what designers do and calling it collaboration.'"},
+    {"text": "Acknowledges the lesson is too early to have conclusions worth attacking — adapts approach accordingly", "passed": true, "evidence": "Challenge 3: 'This isn't a sample size of one. It's a sample size of zero.' Adapts by challenging assumptions rather than nonexistent findings."},
+    {"text": "Classifies challenges as fatal flaw, weakness to acknowledge, or valid tradeoff", "passed": true, "evidence": "Each challenge has explicit verdict. Challenge 2 is 'could be fatal flaw', challenge 3 is 'fatal flaw if you try to publish now'."},
+    {"text": "Ends with 'The lesson survives if...' conditions", "passed": true, "evidence": "'The lesson survives if...' section with 5 conditions."}
+  ]
+}

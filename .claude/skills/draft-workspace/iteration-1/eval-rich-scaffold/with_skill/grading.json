@@ -1,0 +1,42 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-draft",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Asks pointed questions before writing prose, grounding the section in specifics",
+      "passed": true,
+      "evidence": "Asks 3 specific questions: (1) what a typical PRD cycle looked like in calendar time, (2) when you say 'theater' — theater for whom?, (3) what was your specific role and what did it feel like? Each pulls context from the lesson."
+    },
+    {
+      "text": "Pulls specific details from other sections of the lesson file to inform the draft",
+      "passed": true,
+      "evidence": "Pulls the merchant pinning example, '50% of the time we got it wrong', '4-10 weeks', the 13 Golden Conversations reference, and COO feedback patterns from the Core Insight section."
+    },
+    {
+      "text": "Generates suggested prose for the target section",
+      "passed": true,
+      "evidence": "Full 'Suggested Prose' section with 4 paragraphs of draft prose for 'The Problem This Solves'."
+    },
+    {
+      "text": "Flags sentences or claims the author should verify — does not assume all inferences are correct",
+      "passed": true,
+      "evidence": "4 explicit flags in 'Readback & Flags': questions whether 'document formatted for a process' is the right framing, notes the merchant pinning example might lose impact if used twice, asks if '50%' is real or estimated, flags the last sentence as too generic."
+    },
+    {
+      "text": "Prose sounds like the author (direct, first-person, honest) not generic AI writing",
+      "passed": true,
+      "evidence": "Prose uses first person, direct sentences ('Here's how product development worked before'), and matches the lesson's tone. No hedging language or filler."
+    },
+    {
+      "text": "Provides a readback or verification section checking whether prose matches author's intent",
+      "passed": true,
+      "evidence": "'Readback & Flags' section with 4 items, plus a 'Does this sound like you?' closing that identifies the section still needs a distinctly personal anchoring detail."
+    },
+    {
+      "text": "Stays focused on the requested section, does not draft the entire lesson",
+      "passed": true,
+      "evidence": "Entire output focuses on 'The Problem This Solves' section. References other sections only to inform the draft, not to rewrite them."
+    }
+  ]
+}

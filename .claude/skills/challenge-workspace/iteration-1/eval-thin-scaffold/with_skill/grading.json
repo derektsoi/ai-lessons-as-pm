@@ -1,0 +1,12 @@
+{
+  "eval_id": 2,
+  "eval_name": "thin-scaffold-challenge",
+  "configuration": "with_skill",
+  "expectations": [
+    {"text": "Challenges the premise itself (should designers use Claude Code?) rather than just surface-level claims", "passed": true, "evidence": "Challenge 1 directly attacks the premise as 'a solution looking for a problem.' Challenge 3 argues the 'prompt is the spec' analogy breaks down."},
+    {"text": "Calls out that the author may be projecting enthusiasm onto designers", "passed": true, "evidence": "Challenge 1: 'You're starting from your own excitement about a tool and working backward to find someone else who should also be excited.'"},
+    {"text": "Acknowledges the lesson is too early to have conclusions worth attacking — adapts approach accordingly", "passed": true, "evidence": "Challenge 2 notes 'This isn't a lesson. It's a hypothesis document dressed as a lesson scaffold.' Adapts by challenging assumptions and framing rather than conclusions."},
+    {"text": "Classifies challenges as fatal flaw, weakness to acknowledge, or valid tradeoff", "passed": true, "evidence": "Each challenge has severity classification. Challenge 5 identified as 'potential fatal flaw', others as 'weakness to acknowledge' or 'incomplete'."},
+    {"text": "Ends with 'The lesson survives if...' conditions", "passed": true, "evidence": "'The lesson survives if...' section with 3 clear conditions."}
+  ]
+}

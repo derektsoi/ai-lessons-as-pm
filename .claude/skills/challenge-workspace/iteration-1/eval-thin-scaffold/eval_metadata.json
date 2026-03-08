@@ -1,0 +1,32 @@
+{
+  "eval_id": 2,
+  "eval_name": "thin-scaffold-challenge",
+  "prompt": "/challenge lessons/02-designers-prototyping-with-claude-code.md",
+  "assertions": [
+    {
+      "id": "challenges-premise",
+      "text": "Challenges the premise itself (should designers use Claude Code?) rather than just surface-level claims",
+      "type": "qualitative"
+    },
+    {
+      "id": "projection-check",
+      "text": "Calls out that the author may be projecting enthusiasm onto designers",
+      "type": "qualitative"
+    },
+    {
+      "id": "doesnt-overdo",
+      "text": "Acknowledges the lesson is too early to have conclusions worth attacking — adapts approach accordingly",
+      "type": "qualitative"
+    },
+    {
+      "id": "severity-classification",
+      "text": "Classifies challenges as fatal flaw, weakness to acknowledge, or valid tradeoff",
+      "type": "structural"
+    },
+    {
+      "id": "survives-if",
+      "text": "Ends with 'The lesson survives if...' conditions",
+      "type": "structural"
+    }
+  ]
+}

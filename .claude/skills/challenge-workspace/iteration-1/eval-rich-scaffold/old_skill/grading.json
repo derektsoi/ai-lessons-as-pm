@@ -1,0 +1,13 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-challenge",
+  "configuration": "old_skill",
+  "expectations": [
+    {"text": "Attacks the strongest claims first (decision compression, demo-as-spec), not peripheral weaknesses", "passed": true, "evidence": "Lead challenge targets 'decision compression' — argues it's 'decision front-loading' not compression. Strong opening."},
+    {"text": "Provides the strongest version of the opposing view — not a straw man but a real argument someone would make", "passed": true, "evidence": "Counter-arguments are fully developed. E.g., challenge 3 argues the behavioral change matters more than the tool."},
+    {"text": "Challenges survivorship bias — only two projects, both presented as successes", "passed": true, "evidence": "Challenge 2 directly addresses sample size of two with both successes."},
+    {"text": "Questions whether outcomes should be attributed to Claude Code or to the author's effort/context", "passed": true, "evidence": "Challenge 3 argues stripping Claude Code shows the practice, not the tool, is the real lesson."},
+    {"text": "Classifies each challenge as fatal flaw, weakness to acknowledge, or valid tradeoff", "passed": true, "evidence": "All 6 challenges have explicit verdicts using the exact terminology."},
+    {"text": "Ends with 'The lesson survives if...' conditions", "passed": true, "evidence": "'The lesson survives if:' section with 5 conditions."}
+  ]
+}

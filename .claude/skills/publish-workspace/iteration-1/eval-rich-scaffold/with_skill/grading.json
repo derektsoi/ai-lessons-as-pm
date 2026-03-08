@@ -1,0 +1,42 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-publish",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Removes 'Think through' prompts, scaffold elements, status markers, and Raw Material sections",
+      "passed": true,
+      "evidence": "No 'Think through' prompts, no '> Status:' markers, no 'Raw Material' section, no scaffold artifacts. Clean article throughout."
+    },
+    {
+      "text": "Title is the sharpest or most memorable line from the lesson, not a generic description",
+      "passed": true,
+      "evidence": "Title: 'A Working Demo Doesn't Let You Be Vague' — the sharpest line from the lesson, used as previously established in the lesson 01 publishing process."
+    },
+    {
+      "text": "Output is clean prose suitable for Substack — no bullet-only sections, no scaffold artifacts",
+      "passed": true,
+      "evidence": "All sections are clean prose with proper headers. No bullet-only sections. Subtitle, section breaks, and bio line all formatted for Substack."
+    },
+    {
+      "text": "Maintains the author's honest, direct tone — including uncertainty and 'what I'm still figuring out'",
+      "passed": true,
+      "evidence": "'What I'm still figuring out' section preserved with honest admissions: 'I didn't save time — I compressed decisions', 'The old safety net of slow iteration is gone. I don't have a replacement yet', 'the honest answer is both'."
+    },
+    {
+      "text": "Includes a setup paragraph framing the problem for readers who don't know the context",
+      "passed": true,
+      "evidence": "Opening paragraph: 'Here's how product development used to work at my company...' — establishes the broken workflow and stakes before introducing the solution."
+    },
+    {
+      "text": "Includes a one-line bio at the end",
+      "passed": true,
+      "evidence": "'Derek is a PM based in Hong Kong. This is the first in a series about what he's learning building with AI.'"
+    },
+    {
+      "text": "Does not invent examples, anecdotes, or claims not present in the source lesson",
+      "passed": true,
+      "evidence": "All examples (Pokemon API, merchant pinning, 13 Golden Conversations, COO feedback) and claims trace directly to the lesson file. No invented content."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "skill_name": "challenge",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/challenge lessons/01-building-demos-with-claude-code.md",
+      "expected_output": "An adversarial review that attacks the strongest claims (decision compression, demo-as-spec), provides strong counter-arguments with the opposing view fully articulated, and ends with 'The lesson survives if...' conditions.",
+      "files": ["lessons/01-building-demos-with-claude-code.md"]
+    },
+    {
+      "id": 2,
+      "prompt": "/challenge lessons/02-designers-prototyping-with-claude-code.md",
+      "expected_output": "An adversarial review that recognizes there's very little to challenge because the lesson is mostly hypothetical, but still stress-tests the assumptions and projections. Should challenge the premise itself rather than the (nonexistent) conclusions.",
+      "files": ["lessons/02-designers-prototyping-with-claude-code.md"]
+    }
+  ]
+}

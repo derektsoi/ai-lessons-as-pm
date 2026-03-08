@@ -1,0 +1,42 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-publish",
+  "configuration": "old_skill",
+  "expectations": [
+    {
+      "text": "Removes 'Think through' prompts, scaffold elements, status markers, and Raw Material sections",
+      "passed": true,
+      "evidence": "No scaffold artifacts remain. Clean article format with no 'Think through' prompts, status markers, or Raw Material sections."
+    },
+    {
+      "text": "Title is the sharpest or most memorable line from the lesson, not a generic description",
+      "passed": true,
+      "evidence": "Title: 'A Working Demo Doesn't Let You Be Vague' — same sharp title as the new skill output."
+    },
+    {
+      "text": "Output is clean prose suitable for Substack — no bullet-only sections, no scaffold artifacts",
+      "passed": true,
+      "evidence": "All sections are clean prose. No bullet lists as main content. Properly formatted with headers and section breaks."
+    },
+    {
+      "text": "Maintains the author's honest, direct tone — including uncertainty and 'what I'm still figuring out'",
+      "passed": true,
+      "evidence": "'What I'm still figuring out' section with bold subheadings for each uncertainty: 'I didn't save time — I compressed decisions', 'My judgment is higher-leverage now — and higher-risk', 'It's both'. Retains the 'PRD is theater' standalone line."
+    },
+    {
+      "text": "Includes a setup paragraph framing the problem for readers who don't know the context",
+      "passed": true,
+      "evidence": "Opening paragraph establishes the broken workflow at the author's company before introducing the solution."
+    },
+    {
+      "text": "Includes a one-line bio at the end",
+      "passed": true,
+      "evidence": "'Derek is a PM based in Hong Kong. This is the first in a series about what he's learning building with AI.'"
+    },
+    {
+      "text": "Does not invent examples, anecdotes, or claims not present in the source lesson",
+      "passed": true,
+      "evidence": "All content traces to the source lesson. Pokemon API, merchant pinning, Golden Conversations, COO feedback, and all claims sourced from the lesson file."
+    }
+  ]
+}

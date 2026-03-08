@@ -1,0 +1,42 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-publish",
+  "prompt": "/publish lessons/01-building-demos-with-claude-code.md",
+  "assertions": [
+    {
+      "id": "strips-scaffold",
+      "text": "Removes 'Think through' prompts, scaffold elements, status markers, and Raw Material sections",
+      "type": "structural"
+    },
+    {
+      "id": "sharpest-title",
+      "text": "Title is the sharpest or most memorable line from the lesson, not a generic description",
+      "type": "qualitative"
+    },
+    {
+      "id": "clean-prose",
+      "text": "Output is clean prose suitable for Substack — no bullet-only sections, no scaffold artifacts",
+      "type": "structural"
+    },
+    {
+      "id": "preserves-voice",
+      "text": "Maintains the author's honest, direct tone — including uncertainty and 'what I'm still figuring out'",
+      "type": "qualitative"
+    },
+    {
+      "id": "adds-setup",
+      "text": "Includes a setup paragraph framing the problem for readers who don't know the context",
+      "type": "structural"
+    },
+    {
+      "id": "adds-bio",
+      "text": "Includes a one-line bio at the end",
+      "type": "structural"
+    },
+    {
+      "id": "no-invented-content",
+      "text": "Does not invent examples, anecdotes, or claims not present in the source lesson",
+      "type": "structural"
+    }
+  ]
+}

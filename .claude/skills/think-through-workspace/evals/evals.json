@@ -1,0 +1,17 @@
+{
+  "skill_name": "think-through",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/think-through lessons/01-building-demos-with-claude-code.md",
+      "expected_output": "A structured critique of a rich, partially-drafted lesson scaffold. Should identify which claims are grounded vs narrative, push past the obvious 'decision compression' framing to find deeper lessons, catch unaddressed Think Through prompts, and give an honest readiness verdict.",
+      "files": ["lessons/01-building-demos-with-claude-code.md"]
+    },
+    {
+      "id": 2,
+      "prompt": "/think-through lessons/02-designers-prototyping-with-claude-code.md",
+      "expected_output": "A critique of a very thin, early-stage scaffold. Should recognize that most sections are hypothetical rather than observed, flag the lack of concrete designer interactions, and recommend staying in scaffold status rather than pushing toward prose. Should not force depth that isn't there yet.",
+      "files": ["lessons/02-designers-prototyping-with-claude-code.md"]
+    }
+  ]
+}

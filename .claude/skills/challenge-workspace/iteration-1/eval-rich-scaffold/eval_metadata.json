@@ -1,0 +1,37 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-challenge",
+  "prompt": "/challenge lessons/01-building-demos-with-claude-code.md",
+  "assertions": [
+    {
+      "id": "attacks-strongest-first",
+      "text": "Attacks the strongest claims first (decision compression, demo-as-spec), not peripheral weaknesses",
+      "type": "qualitative"
+    },
+    {
+      "id": "strongest-opposing-view",
+      "text": "Provides the strongest version of the opposing view — not a straw man but a real argument someone would make",
+      "type": "qualitative"
+    },
+    {
+      "id": "survivorship-check",
+      "text": "Challenges survivorship bias — only two projects, both presented as successes",
+      "type": "qualitative"
+    },
+    {
+      "id": "attribution-check",
+      "text": "Questions whether outcomes should be attributed to Claude Code or to the author's effort/context",
+      "type": "qualitative"
+    },
+    {
+      "id": "severity-classification",
+      "text": "Classifies each challenge as fatal flaw, weakness to acknowledge, or valid tradeoff",
+      "type": "structural"
+    },
+    {
+      "id": "survives-if",
+      "text": "Ends with 'The lesson survives if...' conditions",
+      "type": "structural"
+    }
+  ]
+}

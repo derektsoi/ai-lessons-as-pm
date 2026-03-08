@@ -1,0 +1,42 @@
+{
+  "eval_id": 2,
+  "eval_name": "thin-scaffold-critique",
+  "prompt": "/think-through lessons/02-designers-prototyping-with-claude-code.md",
+  "assertions": [
+    {
+      "id": "flags-hypothetical",
+      "text": "Recognizes that most sections are hypothetical rather than based on observed experience",
+      "type": "qualitative"
+    },
+    {
+      "id": "doesnt-force-depth",
+      "text": "Does NOT force depth or alternative framings on a lesson that isn't ready for them — respects the early stage",
+      "type": "qualitative"
+    },
+    {
+      "id": "asks-for-evidence",
+      "text": "Asks the author for concrete evidence of designer interactions rather than accepting hypothetical claims",
+      "type": "qualitative"
+    },
+    {
+      "id": "appropriate-verdict",
+      "text": "Gives a verdict of 'not ready' or equivalent — does not overrate the lesson's readiness",
+      "type": "qualitative"
+    },
+    {
+      "id": "no-rewrite",
+      "text": "Does NOT rewrite or generate prose for the lesson — critique only",
+      "type": "structural"
+    },
+    {
+      "id": "ends-with-questions",
+      "text": "Ends with 3 specific questions for the author",
+      "type": "structural"
+    },
+    {
+      "id": "protects-dont-know",
+      "text": "Encourages the author to stay in the 'I don't know yet' space rather than rushing to conclusions",
+      "type": "qualitative"
+    }
+  ]
+}

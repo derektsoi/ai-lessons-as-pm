@@ -1,0 +1,42 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-draft",
+  "prompt": "/draft lessons/01-building-demos-with-claude-code.md \"The Problem This Solves\"",
+  "assertions": [
+    {
+      "id": "asks-questions",
+      "text": "Asks pointed questions before writing prose, grounding the section in specifics",
+      "type": "qualitative"
+    },
+    {
+      "id": "uses-lesson-context",
+      "text": "Pulls specific details from other sections of the lesson file to inform the draft",
+      "type": "qualitative"
+    },
+    {
+      "id": "produces-prose",
+      "text": "Generates suggested prose for the target section",
+      "type": "structural"
+    },
+    {
+      "id": "flags-uncertainty",
+      "text": "Flags sentences or claims the author should verify — does not assume all inferences are correct",
+      "type": "qualitative"
+    },
+    {
+      "id": "maintains-voice",
+      "text": "Prose sounds like the author (direct, first-person, honest) not generic AI writing",
+      "type": "qualitative"
+    },
+    {
+      "id": "readback",
+      "text": "Provides a readback or verification section checking whether prose matches author's intent",
+      "type": "structural"
+    },
+    {
+      "id": "section-focused",
+      "text": "Stays focused on the requested section, does not draft the entire lesson",
+      "type": "structural"
+    }
+  ]
+}

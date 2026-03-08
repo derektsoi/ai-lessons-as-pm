@@ -1,15 +1,11 @@
 ---
 name: publish
-description: "Convert a lesson scaffold into a publishable Substack article. Strips scaffold elements, produces clean prose, picks the sharpest title. Use when user invokes /publish with a lesson file path. Also use when the user says 'make this ready for Substack', 'convert to article', or 'prepare for publishing'."
+description: "Convert a lesson scaffold into a publishable Substack article. Strips scaffold elements, produces clean prose. Use when user invokes /publish with a lesson file path."
 disable-model-invocation: true
 argument-hint: "lessons/XX-topic.md"
 ---
 
 Convert the lesson file at $ARGUMENTS into a Substack-ready article.
-
-## What you're doing
-
-The lesson file is the author's thinking space — it has scaffolds, prompts, raw material, and sections at different stages. Your job is to extract the publishable parts and shape them into an article that stands on its own for a reader who has no context about this repo or process.
 
 ## Steps
 
@@ -28,16 +24,16 @@ The lesson file is the author's thinking space — it has scaffolds, prompts, ra
    - "Think through" prompt blocks (any `> Think through:` content)
    - "Raw Material & References" sections
    - Local file paths or repo references
-   - Scaffold markers and section headers still in bullet form without prose
-   - Empty or purely structural sections
+   - Scaffold markers and section headers that are still in bullet form without prose
+   - Any sections that are purely structural/empty
 
    **Keep:**
-   - "What I'm still figuring out" — works as an honest closing section
-   - All drafted prose sections
+   - "What I'm still figuring out" — this works as an honest closing section
+   - All prose sections that have been drafted
    - Concrete examples and specific moments
 
    **Add:**
-   - An opening setup paragraph (PM in Hong Kong, building with AI tools, the specific situation)
+   - An opening setup paragraph that establishes context (PM in Hong Kong, building with AI tools, the specific problem or situation)
    - `---` section breaks between major sections (Substack renders these as visual dividers)
    - A closing bio line: *"[Author name] is a PM based in Hong Kong. This is [first/next in a series] about what he's learning building with AI."*
 
@@ -47,7 +43,7 @@ The lesson file is the author's thinking space — it has scaffolds, prompts, ra
    - Willing to say "I don't know" or "it's both"
    - No filler phrases added during conversion
 
-4. **Show the user the draft** and ask:
+4. **Show the user the draft** and ask them to review before finalizing. Specifically ask:
    - "Does the title capture the sharpest insight?"
    - "Does the opening give enough context?"
    - "Anything that should stay that I cut, or vice versa?"

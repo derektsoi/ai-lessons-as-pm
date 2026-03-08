@@ -1,0 +1,41 @@
+{
+  "metadata": {
+    "skill_name": "publish",
+    "timestamp": "2026-03-08T15:30:00Z",
+    "runs_per_configuration": 1
+  },
+  "evals": [
+    {
+      "eval_name": "rich-scaffold-publish",
+      "with_skill": {
+        "pass_rate": "7/7 (100%)",
+        "time_seconds": 104.3,
+        "tokens": 21627
+      },
+      "old_skill": {
+        "pass_rate": "7/7 (100%)",
+        "time_seconds": 103.3,
+        "tokens": 21641
+      },
+      "delta": {
+        "pass_rate": "+0.00",
+        "time_seconds": "+1.0",
+        "tokens": "-14"
+      }
+    }
+  ],
+  "run_summary": {
+    "delta": {
+      "pass_rate": "+0.00",
+      "time_seconds": "+1.0",
+      "tokens": "-14"
+    }
+  },
+  "notes": [
+    "Both versions pass all assertions. Nearly identical in time and tokens.",
+    "New skill output has slightly better structure with 'The risk I didn't expect' as a standalone section header.",
+    "Old skill output retains 'The PRD is theater' as a punchy standalone line — more impactful opening.",
+    "Old skill's 'What I'm still figuring out' uses bold subheadings which creates better Substack readability.",
+    "Both produce high-quality, publishable articles. Differences are stylistic, not structural."
+  ]
+}

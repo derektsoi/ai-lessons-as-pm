@@ -1,0 +1,40 @@
+{
+  "metadata": {
+    "skill_name": "draft",
+    "timestamp": "2026-03-08T15:30:00Z",
+    "runs_per_configuration": 1
+  },
+  "evals": [
+    {
+      "eval_name": "rich-scaffold-draft",
+      "with_skill": {
+        "pass_rate": "7/7 (100%)",
+        "time_seconds": 72.6,
+        "tokens": 21978
+      },
+      "old_skill": {
+        "pass_rate": "7/7 (100%)",
+        "time_seconds": 77.6,
+        "tokens": 18583
+      },
+      "delta": {
+        "pass_rate": "+0.00",
+        "time_seconds": "-5.0",
+        "tokens": "+3395"
+      }
+    }
+  ],
+  "run_summary": {
+    "delta": {
+      "pass_rate": "+0.00",
+      "time_seconds": "-5.0",
+      "tokens": "+3395"
+    }
+  },
+  "notes": [
+    "Both versions pass all assertions. New skill is 5s faster but uses more tokens.",
+    "New skill asks more probing questions (feelings, specific role) and has more detailed readback flags.",
+    "Old skill asks a sharper question about PRDs-in-general vs PRDs-in-context.",
+    "Qualitative differentiation: new skill pushes harder on grounding in personal experience."
+  ]
+}

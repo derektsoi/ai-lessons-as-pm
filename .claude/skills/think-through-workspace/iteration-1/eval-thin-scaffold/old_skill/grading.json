@@ -1,0 +1,42 @@
+{
+  "eval_id": 2,
+  "eval_name": "thin-scaffold-critique",
+  "configuration": "old_skill",
+  "expectations": [
+    {
+      "text": "Recognizes that most sections are hypothetical rather than based on observed experience",
+      "passed": true,
+      "evidence": "States 'almost entirely hypothetical' and 'zero grounded observations.' Systematically identifies each claim as hypothesis or assumption."
+    },
+    {
+      "text": "Does NOT force depth or alternative framings on a lesson that isn't ready for them — respects the early stage",
+      "passed": true,
+      "evidence": "Proposes framings but notes 'the scaffold can't progress' until Think Through prompts answered. Doesn't push toward prose prematurely."
+    },
+    {
+      "text": "Asks the author for concrete evidence of designer interactions rather than accepting hypothetical claims",
+      "passed": true,
+      "evidence": "Notes 'No specific designer is mentioned anywhere' and asks for designer specifics in closing questions."
+    },
+    {
+      "text": "Gives a verdict of 'not ready' or equivalent — does not overrate the lesson's readiness",
+      "passed": true,
+      "evidence": "Verdict: 'Not ready.' States 'the next step isn't writing — it's doing the experiment.'"
+    },
+    {
+      "text": "Does NOT rewrite or generate prose for the lesson — critique only",
+      "passed": true,
+      "evidence": "Output is entirely critique. No rewritten sections."
+    },
+    {
+      "text": "Ends with 3 specific questions for the author",
+      "passed": true,
+      "evidence": "Three questions about showing Claude Code to a designer, whether 'designer' could be replaced with 'non-technical teammate', and openness to negative outcome."
+    },
+    {
+      "text": "Encourages the author to stay in the 'I don't know yet' space rather than rushing to conclusions",
+      "passed": true,
+      "evidence": "States 'the next step isn't writing — it's doing the experiment and filling in the Think through prompts.' Does not push toward premature conclusions."
+    }
+  ]
+}

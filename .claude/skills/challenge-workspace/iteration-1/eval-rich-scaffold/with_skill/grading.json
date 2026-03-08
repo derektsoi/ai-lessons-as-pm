@@ -1,0 +1,13 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-challenge",
+  "configuration": "with_skill",
+  "expectations": [
+    {"text": "Attacks the strongest claims first (decision compression, demo-as-spec), not peripheral weaknesses", "passed": true, "evidence": "Lead challenge targets 'decision compression' directly — argues it's really 'decision front-loading' and the comparison baseline is unfair. Second challenge hits sample size."},
+    {"text": "Provides the strongest version of the opposing view — not a straw man but a real argument someone would make", "passed": true, "evidence": "Each counter-argument is fully articulated. E.g., challenge 3 argues a PM who thinks like this would produce similar output without Claude Code. Challenge 5 argues PRDs aren't inherently theatrical."},
+    {"text": "Challenges survivorship bias — only two projects, both presented as successes", "passed": true, "evidence": "Challenge 2 directly addresses two-project sample size: 'two data points drawn from the same person, at the same company, in the same quarter... is not a pattern — it's a coincidence waiting to be tested.'"},
+    {"text": "Questions whether outcomes should be attributed to Claude Code or to the author's effort/context", "passed": true, "evidence": "Challenge 3 explicitly addresses attribution: 'The real differentiator wasn't Claude Code. It was that you voluntarily spent the time...'"},
+    {"text": "Classifies each challenge as fatal flaw, weakness to acknowledge, or valid tradeoff", "passed": true, "evidence": "All 7 challenges have explicit verdict classifications. Most are 'weakness to acknowledge', one is 'bordering on fatal flaw if left unaddressed', one is 'valid tradeoff'."},
+    {"text": "Ends with 'The lesson survives if...' conditions", "passed": true, "evidence": "Clear 'The lesson survives if...' section with 3 conditions: judgment tested not just applied, comparison is fair, tool vs person question answered."}
+  ]
+}

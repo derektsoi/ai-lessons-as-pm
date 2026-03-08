@@ -1,0 +1,42 @@
+{
+  "eval_id": 2,
+  "eval_name": "thin-scaffold-critique",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Recognizes that most sections are hypothetical rather than based on observed experience",
+      "passed": true,
+      "evidence": "Opens with 'This lesson is almost entirely narrative' and 'there are zero grounded observations in the file right now.' Calls out each section as placeholder or abstract claim."
+    },
+    {
+      "text": "Does NOT force depth or alternative framings on a lesson that isn't ready for them — respects the early stage",
+      "passed": true,
+      "evidence": "Proposes framings but explicitly says 'Both of these framings require you to have actually tried something and watched what happened. The lesson can't go deeper until the experiment does.'"
+    },
+    {
+      "text": "Asks the author for concrete evidence of designer interactions rather than accepting hypothetical claims",
+      "passed": true,
+      "evidence": "Asks for specific designer reactions throughout, notes 'No designer quotes, reactions, or perspectives in this scaffold,' asks 'Have you actually put Claude Code in front of a designer yet?'"
+    },
+    {
+      "text": "Gives a verdict of 'not ready' or equivalent — does not overrate the lesson's readiness",
+      "passed": true,
+      "evidence": "Verdict: 'Not ready.' States 'The next step isn't writing — it's doing the experiment.'"
+    },
+    {
+      "text": "Does NOT rewrite or generate prose for the lesson — critique only",
+      "passed": true,
+      "evidence": "Output is entirely critique. No rewritten sections."
+    },
+    {
+      "text": "Ends with 3 specific questions for the author",
+      "passed": true,
+      "evidence": "Three questions about whether designer experiment happened, who the imagined designer is, and whether this is a lesson or a watching brief."
+    },
+    {
+      "text": "Encourages the author to stay in the 'I don't know yet' space rather than rushing to conclusions",
+      "passed": true,
+      "evidence": "Recommends keeping as 'watching brief' rather than shaping into a lesson. Says 'the file should stay in scaffold state until there's something real to report.'"
+    }
+  ]
+}

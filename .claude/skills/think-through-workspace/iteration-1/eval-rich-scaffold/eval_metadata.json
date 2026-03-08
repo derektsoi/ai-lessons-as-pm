@@ -1,0 +1,42 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-critique",
+  "prompt": "/think-through lessons/01-building-demos-with-claude-code.md",
+  "assertions": [
+    {
+      "id": "grounds-claims",
+      "text": "Identifies at least 2 specific claims that are narrative rather than grounded in observation, citing the actual text",
+      "type": "qualitative"
+    },
+    {
+      "id": "pushes-past-obvious",
+      "text": "Proposes at least 1 alternative framing that goes deeper than the author's 'decision compression' framing",
+      "type": "qualitative"
+    },
+    {
+      "id": "catches-unaddressed-prompts",
+      "text": "Identifies unaddressed 'Think through' prompts still in the scaffold",
+      "type": "qualitative"
+    },
+    {
+      "id": "no-rewrite",
+      "text": "Does NOT rewrite or generate prose for the lesson — critique only",
+      "type": "structural"
+    },
+    {
+      "id": "readiness-verdict",
+      "text": "Provides a clear readiness verdict (not ready / scaffold done / draft ready / publishable)",
+      "type": "structural"
+    },
+    {
+      "id": "ends-with-questions",
+      "text": "Ends with 3 specific questions for the author",
+      "type": "structural"
+    },
+    {
+      "id": "uncomfortable-edge",
+      "text": "Surfaces at least one uncomfortable truth or tradeoff the author might be avoiding",
+      "type": "qualitative"
+    }
+  ]
+}

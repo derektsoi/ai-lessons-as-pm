@@ -1,0 +1,41 @@
+{
+  "metadata": {
+    "skill_name": "review",
+    "timestamp": "2026-03-08T15:30:00Z",
+    "runs_per_configuration": 1
+  },
+  "evals": [
+    {
+      "eval_name": "rich-scaffold-review",
+      "with_skill": {
+        "pass_rate": "7/7 (100%)",
+        "time_seconds": 138.4,
+        "tokens": 21485
+      },
+      "old_skill": {
+        "pass_rate": "7/7 (100%)",
+        "time_seconds": 225.5,
+        "tokens": 24787
+      },
+      "delta": {
+        "pass_rate": "+0.00",
+        "time_seconds": "-87.1",
+        "tokens": "-3302"
+      }
+    }
+  ],
+  "run_summary": {
+    "delta": {
+      "pass_rate": "+0.00",
+      "time_seconds": "-87.1",
+      "tokens": "-3302"
+    }
+  },
+  "notes": [
+    "Both versions pass all assertions. New skill is 87s faster and uses fewer tokens — significant efficiency gain.",
+    "New skill's closing question is more outcome-focused (best product decision from Golden Conversations).",
+    "Old skill's closing question is more relationship-focused (how would engineer feel reading this).",
+    "Old skill's Skeptic is slightly more aggressive but both produce equally sharp reviews.",
+    "Both surface the engineering tension, anchoring risk, and output-metrics-vs-outcomes issue."
+  ]
+}

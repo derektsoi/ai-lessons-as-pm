@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "think-through", "runs": [{"id": "eval-rich-scaffold-old_skill", "prompt": "/think-through lessons/01-building-demos-with-claude-code.md", "eval_id": 1, "outputs": [{"name": "critique.md", "type": "text", "content": "# Think-Through Critique: 01-building-demos-with-claude-code.md\n\n---\n\n## 1. Observation Check\n\n**Grounded claims (strong):**\n\n- \"I used Claude Code to generate HTML+Tailwind mobile mockups\" -- specific action, concrete tool usage.\n- \"Connected Figma MCP to read real design tokens. Built a component library from our design system. Used agent teams (4 generators + 3 reviewers) to produce 8 structural variations.\" -- precise numbers and method. This is observation.\n- \"Wrote 13 Golden Conversations\" -- specific, countable artifact.\n- \"5 tech spikes testing real APIs, sequence diagrams mapping data flow, a 2,383-line agent I/O specification\" -- concrete numbers grounding the claim.\n- \"All the Pokemon APIs use different card identification standards. The price API has one, the card catalog has another, the photo recognition returns a third.\" -- specific technical discovery. This reads like something that actually happened.\n- \"I wrote 15 test cases before sharing anything with engineers\" (merchant pinning) -- specific.\n\n**Claims that read like narrative constructed after the fact:**\n\n- \"The PRD is theater. It serves a bureaucratic function, not a thinking function.\" -- This is a strong claim presented as universal truth. Was every PRD you wrote theater? Were there PRDs that actually worked? If so, what made those different? This line is doing rhetorical work, not observation work.\n\n- \"I didn't set out to change how I write specs. I was building a demo... Somewhere in the middle of that, I realized I wasn't writing a demo anymore. I was writing the spec.\" -- This is a clean origin story. Too clean. Did you really have a single moment of realization, or did this understanding emerge gradually? If it was gradual, what were the intermediate steps?\n\n- \"In the old workflow, decisions took 4-10 weeks to surface.\" -- Is this measured or estimated? What's the actual range from specific projects? \"4-10 weeks\" feels like a round number picked to sound bad. What was it actually?\n\n- \"I'd say 50% of the time we got it wrong and had to adjust last minute. Sometimes it was a disaster.\" -- \"I'd say 50%\" is a guess, not data. Can you name the disasters? Even one specific one would make this credible. Without it, this reads like \"things were bad before, now they're good\" -- the most common and least trustworthy narrative shape.\n\n- \"Now, the COO sees a demo grounded in real API calls in the first few sessions. When he asks 'can it do X?' -- the answer is based on an API call I already made, not a guess.\" -- Has this actually happened? What did the COO actually ask? What was your answer? This is the single most important claim in the lesson (the new workflow produces better stakeholder conversations) and it's the one with the least specific evidence.\n\n**Questions to ground the narrative:**\n\n- What did the COO actually say when he saw the Pokemon demo? Quote him, or at least paraphrase a specific reaction.\n- What did stakeholders say when they saw the Trending Merchants mockups? Did the \"directional concept, not a design\" framing actually work, or did someone treat it as a final design anyway?\n- You mention engineering pushback on the \"demo owner\" concept. What specifically did they push back on? What words did they use?\n\n---\n\n## 2. Lesson Depth Check\n\n**The stated lesson:** \"Claude Code compressed my product development cycle from weeks to days. That sounds like a win -- and it is -- but it means my judgment has to be right much earlier, with fewer correction points.\"\n\n**Is this the first-pass lesson?** No -- the author has already pushed past several first-pass framings (listed in the \"Previous framings (superseded)\" section). The current framing has real tension in it. That's good.\n\n**But there's something underneath it that the lesson is circling around without landing on:**\n\n**Alternative framing 1: \"I replaced a distributed decision-making process with a centralized one, and I'm calling it better because it's faster.\"**\n\nThe old workflow (PM writes spec, designer interprets, engineer discovers problems, it escalates back) is slow and frustrating -- but it's also a distributed system for catching errors. Multiple people apply judgment at multiple stages. The new workflow concentrates judgment in one person (you) at one stage (the demo). The lesson acknowledges this (\"judgment is higher-leverage and higher-risk now\") but frames it as a future concern rather than a present tension. You already have two projects using this method. Is your judgment actually being validated, or are you too early to know?\n\n**Alternative framing 2: \"I found a way to do engineering's job before they do, and I'm framing it as product work.\"**\n\nThe lesson carefully distinguishes \"what the product does\" (PM) from \"how it works\" (engineering). But you're writing sequence diagrams, testing APIs, defining data flows, and producing 2,383-line specifications. At what point does \"product judgment about what to test\" become \"technical architecture decisions made without engineering input\"? The engineering pushback you mention might be more substantive than the lesson currently acknowledges. The question isn't just \"who builds the demo\" -- it's \"who gets to make architectural implications before engineering is in the room.\"\n\n**The uncomfortable truth the lesson is dancing around:** You enjoy this. You say so explicitly in the \"It's both\" section. But the lesson is structured to justify the practice on productivity grounds first, and acknowledge the enjoyment second. What if the enjoyment is the primary driver, and the productivity argument is the rationalization? That doesn't make the practice wrong -- but it changes how you'd evaluate it. You'd ask \"is this the best use of my time?\" differently if you started from \"I like building\" rather than \"this produces better decisions.\"\n\n---\n\n## 3. Gap Check\n\n**Unaddressed \"Think through\" prompts:**\n\n- \"What specifically made the old workflow ineffective? Was it the format (document), the timing (too late), the abstraction (too vague), or the people (wrong audience)?\" -- The prose section partially answers this but doesn't commit to a specific diagnosis. If it's all four, say that and rank them. The lesson currently implies \"abstraction\" is the main problem (demos are concrete, PRDs are vague) but the timing argument might be stronger.\n\n- \"Does this framing actually address engineering's concern? Or does it still feel like the PM has pre-empted technical decisions?\" -- This is the right question and it's still sitting unanswered in the scaffold. The \"Demo Owner\" section acknowledges the question but doesn't engage with it honestly.\n\n- \"Have you tried this and had it fail? If not, these boundaries are theoretical.\" -- Still theoretical. The lesson is honest about this, but it weakens the \"Where This Approach Works\" section significantly. Everything in the \"Might not work when\" list is speculation.\n\n**Sections still in bullets that need prose:**\n\n- \"The Problem This Solves\" -- still bullets. This is the setup for the entire piece. If this stays as bullets, the reader has no emotional entry point.\n- \"The 'Demo Owner' Experiment\" -- still mostly bullets. This is where the real organizational tension lives. It deserves more than a bullet list.\n- \"Where This Approach Works (and Doesn't)\" -- bullet list is fine for this section structurally, but the items need expansion. \"Internal system behavior that can't be tested from the outside\" -- can you give an example from your own work?\n\n**Counterarguments not acknowledged:**\n\n- What if the COO preferred the demo because it was shiny, not because it was better? Is there a risk that \"real API data\" gives a false sense of completeness? You validated that an API returns certain data -- you didn't validate that the product built on that API would work at scale. The demo could be persuasive without being predictive.\n- What about the designers? You mention PM and designers working together, but the lesson is almost entirely about you working solo with Claude Code. Where did design actually contribute? If they didn't contribute much, that's worth examining -- you may be cutting them out of the process the same way you're worried about cutting out engineering.\n- Survivorship bias: you're writing about two projects that went well. Were there demos you started and abandoned? Approaches you tried with Claude Code that didn't work?\n\n**Reader questions the lesson doesn't answer:**\n\n- How long did the Pokemon demo actually take to build? \"Days not weeks\" is implied but never stated.\n- What happened after the demo? Did engineering implement it? Did the golden conversations actually serve as the spec during development, or did they write their own?\n- What does the COO think about this approach? Has he said anything about the quality of decisions coming out of it?\n\n---\n\n## 4. Audience Check\n\n**Would a PM who has never used Claude Code understand why this matters?**\n\nPartially. The core insight (demos force concrete decisions, PRDs allow vagueness) is universal and doesn't require Claude Code knowledge. But the lesson is heavy on Claude Code mechanics (Figma MCP, agent teams, HTML+Tailwind) that will lose non-technical readers. The lesson needs to be clearer about what's transferable (the practice of building concrete artifacts before writing specs) vs. what's tool-specific (using Claude Code to do it).\n\n**Does it assume insider knowledge?**\n\n- \"Figma MCP\" -- most PMs won't know what this is.\n- \"Agent teams (4 generators + 3 reviewers)\" -- this is Claude Code jargon.\n- \"Golden Conversations\" -- the term isn't standard. It's defined well enough in context, but the first mention should make clear this is the author's own term.\n- \"TDD for LLM products\" -- assumes the reader knows what TDD is.\n\n**What's the one line that would make someone share this?**\n\n\"A working demo doesn't let you be vague.\" This is already in the text (line 57). It's sharp, it's true, and it applies beyond AI tools. This should be the title or the hook, not buried in a paragraph.\n\nRunner-up: \"I did more work, not less. I made better decisions, not faster ones.\" This challenges the \"AI saves time\" narrative that most readers will expect.\n\n---\n\n## 5. Verdict\n\n**Scaffold done.** The Core Insight section has been expanded into strong prose -- it's the most developed part of the lesson and it's genuinely good. But the surrounding sections (The Problem, Demo Owner, Where This Works) are still in bullet/scaffold form. The lesson has a solid center but unfinished edges. The biggest risk is that the Core Insight section is doing too much work -- it's trying to be the entire lesson, and the other sections feel like appendices rather than integral parts of the argument.\n\nBefore expanding the remaining sections, the author should decide: is this one lesson or three? \"Decision compression\" is one lesson. \"The demo owner experiment\" is another. \"Judgment risk when you remove the iteration safety net\" is a third. Trying to serve all three in one piece may be why the scaffold feels uneven -- the Core Insight section is the strongest because it's the most focused.\n\n---\n\n## 3 Questions to Sit With\n\n1. **What did the COO actually say after the Pokemon demo?** You've built the entire lesson around the claim that demos produce better stakeholder conversations than PRDs. But you haven't included a single specific reaction, quote, or decision that came out of those conversations. Without that, the reader is taking your word for it. What's the moment that proved this worked?\n\n2. **Is the engineering pushback about process or about trust?** You frame it as a role-definition problem (who builds the demo). But engineers might be saying something different: \"You're making technical commitments we haven't agreed to.\" If that's the real objection, the \"demo owner builds, business owner decides\" framing doesn't address it -- because the concern isn't about who decides, it's about what's already been decided by the time they see it.\n\n3. **If you hadn't enjoyed building, would you still think this is the right approach?** You're honest about the \"it's both\" tension. But the lesson is structured to prove the productivity case first, then acknowledge the enjoyment. Try inverting it: assume the enjoyment is the primary driver. Does the productivity argument still hold up on its own? If it does, great -- lead with that evidence. If it doesn't, the lesson needs to reckon with that more directly.\n"}], "grading": {"eval_id": 1, "eval_name": "rich-scaffold-critique", "configuration": "old_skill", "expectations": [{"text": "Identifies at least 2 specific claims that are narrative rather than grounded in observation, citing the actual text", "passed": true, "evidence": "Identifies 'PRD is theater' as rhetorical not observational, 'I didn't set out to change how I write specs' as too-clean origin story, '4-10 weeks' as possibly round number, '50%' as a guess, and COO interaction as unspecific. Cites text for each."}, {"text": "Proposes at least 1 alternative framing that goes deeper than the author's 'decision compression' framing", "passed": true, "evidence": "Proposes two: (1) 'Replaced distributed decision-making with centralized one, calling it better because it's faster.' (2) 'Found a way to do engineering's job before they do, framing it as product work.' Both push deeper than decision compression."}, {"text": "Identifies unaddressed 'Think through' prompts still in the scaffold", "passed": true, "evidence": "Flags all 3 unaddressed prompts with specific quotes and analysis of what each needs."}, {"text": "Does NOT rewrite or generate prose for the lesson \u2014 critique only", "passed": true, "evidence": "Output is entirely critique. No rewritten sections."}, {"text": "Provides a clear readiness verdict (not ready / scaffold done / draft ready / publishable)", "passed": true, "evidence": "Verdict: 'Scaffold done.' Notes Core Insight section is strong prose but surrounding sections are still scaffold."}, {"text": "Ends with 3 specific questions for the author", "passed": true, "evidence": "Three questions: (1) What did COO actually say after Pokemon demo? (2) Is engineering pushback about process or trust? (3) If you hadn't enjoyed building, would you still think this is right?"}, {"text": "Surfaces at least one uncomfortable truth or tradeoff the author might be avoiding", "passed": true, "evidence": "Surfaces that enjoyment might be primary driver with productivity as rationalization, and that PM may be pre-empting engineering decisions while calling it 'product work.'"}]}}, {"id": "eval-rich-scaffold-with_skill", "prompt": "/think-through lessons/01-building-demos-with-claude-code.md", "eval_id": 1, "outputs": [{"name": "critique.md", "type": "text", "content": "# Think-Through Critique: 01 \u2014 Building Product Demos with Claude Code\n\n## Observation vs. Narrative\n\nThe core insight section is the strongest part of this lesson, and it's strongest precisely where it stays grounded. Some specific observations:\n\n**Grounded (good):**\n- \"All the Pokemon APIs use different card identification standards. The price API has one, the card catalog has another, the photo recognition returns a third.\" \u2014 This is a concrete discovery. It traces to a real moment.\n- \"What happens when a marketer pins a merchant that's already ranked #3?\" \u2014 Specific edge case you found by building.\n- \"13 Golden Conversations... 5 tech spikes... 2,383-line agent I/O specification.\" \u2014 Real numbers, real artifacts. These anchor the claim.\n\n**Narrative masquerading as observation:**\n- \"I'd say 50% of the time we got it wrong and had to adjust last minute. Sometimes it was a disaster.\" \u2014 Is 50% real or a feeling? What was the actual disaster? Name one. \"Disaster\" is a story you're telling yourself; the specific incident would teach the reader something.\n- \"When he asks 'can it do X?' \u2014 the answer is based on an API call I already made, not a guess.\" \u2014 Did this actually happen? What did the COO actually ask, and what was your answer? If you have a real exchange, use it. If you're constructing what you imagine happened, flag it.\n- \"Stakeholders are reacting to real output, not wireframes of idealized flows. Their feedback is grounded too \u2014 they can't say 'make it smarter,' they have to point to a specific conversation and say 'this answer is wrong because X.'\" \u2014 Did someone actually do this? Or is this the theory of how the demo should work? The Trending Merchants section has a bracketed note that literally says: *\"Expand on: what happened when stakeholders saw the mockups.\"* You haven't filled that in. The claim about stakeholder reactions is unsupported by the lesson's own evidence.\n- \"The PRD is theater.\" \u2014 Strong line, but it's a conclusion, not an observation. What specific moment made you realize this? Was there a particular PRD that no one read? A meeting where the PRD was supposed to be the artifact and it fell flat?\n\n**The \"old workflow\" section is almost entirely narrative.** \"PM waits for vague idea from management. Writes PRD in a format boss won't read.\" This may be accurate, but it reads like a polemic against a straw man. One concrete example of the old workflow failing \u2014 a specific feature, a specific misunderstanding, a specific timeline \u2014 would make this section credible instead of just persuasive.\n\n## Depth\n\nThe current framing \u2014 \"decision compression\" \u2014 is solid and non-obvious. It's better than \"AI makes PMs faster\" or \"demos beat docs.\" You've pushed past the surface, especially with the risk half (judgment is higher-leverage and the safety net is gone).\n\nBut there are two places where the thinking stops short:\n\n**Alternative framing 1: \"I replaced a collective thinking process with a solo one.\"**\n\nThe old workflow, for all its slowness, involved multiple people interpreting and reacting to the idea at multiple stages. Designer interprets the spec, engineer pushes back on feasibility, COO sees a finished design. Each handoff was a correction opportunity. You've compressed those handoffs, but you've also eliminated them. The demo arrives fully formed, grounded in real data, and that's exactly what makes it harder to challenge. You acknowledge this in \"What I Got Wrong\" \u2014 but the lesson buries it there instead of wrestling with it as a central tension.\n\nThe uncomfortable version: by making the artifact more authoritative (grounded in real APIs, concrete scenarios), you may have made it *harder* for others to push back, not easier. Does the COO challenge a demo backed by real API calls the same way he'd challenge a wireframe? Or does the concreteness create an anchoring effect? You don't say.\n\n**Alternative framing 2: \"I discovered the demo is the spec \u2014 but I haven't proven the spec is better.\"**\n\nYou have strong evidence that the demo surfaces decisions earlier. You don't have evidence that those decisions are *better*. You mention the Pokemon project hasn't been built yet (implied \u2014 no mention of engineering starting). You mention the merchant project test cases, but not whether engineering agreed they covered the right scenarios. The lesson claims \"better decisions\" but the evidence only supports \"earlier decisions.\" Those are different claims.\n\n## Gaps\n\n**Unaddressed scaffold prompts:**\n- \"Think through: What specifically made the old workflow ineffective? Was it the format (document), the timing (too late), the abstraction (too vague), or the people (wrong audience)?\" \u2014 This is still sitting as a prompt. The \"Why this matters\" section answers it partially but doesn't commit to a clear answer. The lesson would be sharper if you picked one primary cause and argued for it.\n- \"Think through: Does this framing actually address engineering's concern?\" \u2014 Still a prompt. The \"Demo Owner\" section has a contract definition but doesn't report whether engineering actually bought in.\n- \"Think through: Have you tried this and had it fail?\" \u2014 Still a prompt. And the answer matters a lot. If the answer is \"no,\" say so \u2014 that's honest and useful. Theoretical boundaries without a failure story are less convincing.\n\n**Missing details that weaken the argument:**\n- The Trending Merchants example is thin. You describe what you built (HTML+Tailwind mockups, component library, agent teams). You don't describe what happened next. Did it change the conversation? How? What did the boss actually say when he saw mockups instead of a PRD?\n- You mention \"pushback from engineering\" three times but never describe it concretely. What did they actually say? \"Pushback\" is a narrative summary. The specific objection would teach the reader something.\n- The \"It's both\" section is honest and good, but it's one paragraph. This might be the most important tension in the lesson \u2014 the difference between \"this produces better outcomes\" and \"I like doing this\" \u2014 and it gets the least space.\n\n**Counterarguments not addressed:**\n- A skeptical PM would ask: \"You spent all this time building a demo and testing APIs. How do you know the PRD approach would have taken longer end-to-end? Maybe you front-loaded work that would have been distributed across the team.\" You claim the old cycle was 4-10 weeks, but you don't say how long the new approach took for either project.\n- Another reader would ask: \"If the COO is reacting to a polished demo, does he even realize there are decisions still open? Or does the demo's completeness close doors that should stay open?\"\n\n## Audience Readiness\n\n**What works for a Substack audience:**\n- The \"decision compression\" frame is the kind of thing PMs would share. It's specific enough to be useful, abstract enough to apply broadly.\n- The Pokemon example is vivid \u2014 card identification standards, LLM translation layer, golden conversations. A PM who's never used Claude Code can still follow the logic.\n- The \"What I Got Wrong\" section is genuinely unusual for this kind of article. Most \"I used AI to do X\" posts are triumphant. This one admits risk.\n\n**What doesn't work yet:**\n- The lesson assumes the reader knows what Claude Code is and how it works. A line or two of context would help \u2014 \"a coding assistant that can browse docs, call APIs, and generate code from conversation\" or similar.\n- The Trending Merchants example needs to either be fleshed out or cut. Right now it's half-told and dilutes the Pokemon example, which is much stronger.\n- The \"Demo Owner\" section reads like internal org politics, not a lesson. A Substack reader doesn't care about your engineering team's pushback unless you can extract a general principle from it. The principle might be: \"When you change the artifact, you change the power dynamics\" \u2014 but the lesson doesn't get there.\n\n**Shareable line candidate:** \"A working demo doesn't let you be vague\" is already in the text and it's the strongest one-liner. That could be the title.\n\n## Verdict\n\n**Rating: Draft ready** (for the core insight section). The rest is scaffold that needs either expansion or cutting.\n\nThe core insight section (paragraphs on decision compression, the Pokemon example, the merchant pinning example, and the \"old workflow was broken\" section) is close to publishable prose. The surrounding scaffold sections (Demo Owner, What I Got Wrong, Where This Works) are still in outline/bullet form and aren't ready for readers.\n\n**Three questions to sit with:**\n\n1. **You claim the COO's feedback was \"grounded\" because he was reacting to real output. Did you actually observe him give different-quality feedback on the demo vs. on a PRD? Or is this the story you want to be true?** If you have a specific contrast \u2014 the same person, different quality of response depending on artifact \u2014 that's the most powerful evidence in the lesson. If you don't, the claim is a hypothesis, not a finding.\n\n2. **You spent more time, produced denser output, and compressed decisions into a shorter window. What if the reason the old workflow took 4-10 weeks wasn't inefficiency \u2014 what if it was the time other people needed to form their own understanding?** You may have traded distributed comprehension for concentrated comprehension. That's a real tradeoff, and the lesson doesn't grapple with it.\n\n3. **The \"It's both\" admission \u2014 enjoyment vs. effectiveness \u2014 is a one-paragraph aside. What would happen if it were the center of the lesson?** \"I built a 2,383-line spec because I could, and I'm now trying to figure out if I should have\" is a more honest and more interesting lesson than \"decision compression is better than PRDs.\" Which one are you actually writing?\n"}], "grading": {"eval_id": 1, "eval_name": "rich-scaffold-critique", "configuration": "with_skill", "expectations": [{"text": "Identifies at least 2 specific claims that are narrative rather than grounded in observation, citing the actual text", "passed": true, "evidence": "Identifies '50% of the time we got it wrong' as ungrounded estimate, COO reaction as constructed narrative, 'PRD is theater' as conclusion without concrete moment, and stakeholder reactions as unsupported. Cites specific text from the lesson for each."}, {"text": "Proposes at least 1 alternative framing that goes deeper than the author's 'decision compression' framing", "passed": true, "evidence": "Proposes two: (1) 'Replaced a collective thinking process with a solo one' \u2014 distributed vs centralized judgment. (2) 'Demo is evidence but only supports earlier decisions, not better decisions' \u2014 challenges the core claim."}, {"text": "Identifies unaddressed 'Think through' prompts still in the scaffold", "passed": true, "evidence": "Flags all 3 unaddressed prompts: old workflow diagnosis, engineering concern framing, and failure experience. Quotes each prompt and notes what's missing."}, {"text": "Does NOT rewrite or generate prose for the lesson \u2014 critique only", "passed": true, "evidence": "Output is entirely critique and analysis. No rewritten sections or generated prose."}, {"text": "Provides a clear readiness verdict (not ready / scaffold done / draft ready / publishable)", "passed": true, "evidence": "Verdict: 'Draft ready (for the core insight section)' with nuance that surrounding scaffold needs expansion or cutting."}, {"text": "Ends with 3 specific questions for the author", "passed": true, "evidence": "Three questions: (1) Did COO actually give different-quality feedback on demo vs PRD? (2) What if old workflow's slowness was time others needed to form understanding? (3) What if 'It's both' was the center of the lesson?"}, {"text": "Surfaces at least one uncomfortable truth or tradeoff the author might be avoiding", "passed": true, "evidence": "Surfaces that demo's concreteness may create anchoring effect making it harder to challenge, and that enjoyment-vs-effectiveness might mean enjoyment is primary driver with productivity as rationalization."}]}}, {"id": "eval-thin-scaffold-old_skill", "prompt": "/think-through lessons/02-designers-prototyping-with-claude-code.md", "eval_id": 2, "outputs": [{"name": "critique.md", "type": "text", "content": "# Think-Through Critique: Lesson 02 \u2014 Helping Designers Prototype with Claude Code\n\n---\n\n## 1. Observation Check\n\nThis lesson is almost entirely hypothetical. That's not a criticism \u2014 the scaffold itself acknowledges this \u2014 but it needs to be said plainly: **there are zero grounded observations in this file.**\n\nSpecific flags:\n\n- **\"Natural next question: could designers use this too?\"** \u2014 Whose natural next question? Yours? Did a designer ask you this, or did you generate this question yourself after your own experience? There's a big difference between a pull (designer curiosity) and a push (PM enthusiasm looking for a broader audience).\n\n- **\"designers thinking in interactions and flows, not just static screens\"** \u2014 This reads like a generalization about designers, not something you observed a specific designer do or say. Which designer? What interaction were they thinking about?\n\n- **\"The prompt is the spec\" / \"for designers, writing a Claude Code prompt is basically writing a design brief\"** \u2014 This is an analogy you constructed. Has a designer actually experienced this? The scaffold's own \"Think through\" prompt asks this, and it's unanswered.\n\n- **\"The fear of 'code'\"** \u2014 The scaffold's own \"Think through\" prompt asks whether this is observed or assumed. The fact that the prompt exists but no answer is provided tells me this is still assumption territory.\n\n- **\"PMs want directional answers fast. Designers want craft control.\"** \u2014 A clean dichotomy that sounds right but may be too neat. Have you confirmed this with designers at Buy&Ship, or is this pattern-matched from general PM/designer stereotypes?\n\n**Bottom line:** Every claim in this scaffold traces back to your mental model of what designers might want, not to what any specific designer said or did. The scaffold is honest about this \u2014 but the critique has to name it clearly: you don't have evidence yet.\n\n---\n\n## 2. Lesson Depth Check\n\n**Current framing:** \"Claude Code could help designers prototype faster.\"\n\nThis is a tool-adoption pitch, not a lesson. It's the obvious first-pass framing: \"I found a tool useful, maybe others will too.\"\n\n**What's underneath it \u2014 two alternative framings:**\n\n1. **\"PMs who build with AI are going to create a new handoff problem.\"** If PMs start generating working prototypes, designers might feel bypassed rather than empowered. The lesson might not be \"designers should use Claude Code\" \u2014 it might be \"PMs using Claude Code need to think carefully about how this changes the PM-designer relationship.\" That's a harder, more honest lesson about power dynamics in product teams.\n\n2. **\"The real test of any 'everyone can code' tool is whether a non-evangelist uses it twice.\"** You already have this signal buried in the \"Open Questions\" section (\"a designer voluntarily uses Claude Code for a second time\"). That's a sharper lesson than \"designers could prototype with this.\" The lesson becomes about adoption signals vs. enthusiasm, and it applies far beyond Claude Code.\n\n**Uncomfortable truth the lesson might be dancing around:** You might be unconsciously building a case for why designers should adopt your workflow, rather than genuinely asking whether they should. The scaffold's self-aware question \u2014 \"Am I projecting my own enthusiasm onto designers who didn't ask for this?\" \u2014 is the most important line in the entire file. If the answer is yes, the lesson isn't about designers at all. It's about the PM temptation to evangelize your tools.\n\n---\n\n## 3. Gap Check\n\n### Unanswered \"Think through\" prompts\n\nEvery single \"Think through\" prompt in the scaffold is unanswered. That's five prompts, all still open:\n\n1. What specific moment or friction made me think \"a designer should be able to do this\"?\n2. Am I writing about what I've done, or what I imagine doing?\n3. Have I actually seen a designer write a prompt?\n4. Is the \"fear of code\" a real barrier I've observed?\n5. Have I talked to designers about this? What did they actually say?\n\nThese aren't optional decoration \u2014 they're the work. Until at least 3-4 of these are answered with specifics, this scaffold can't progress.\n\n### Missing sections / gaps\n\n- **\"What I've Tried So Far\"** has no content under either sub-heading. The \"actually happened\" list and the \"still hypothetical\" list are both empty placeholders.\n- **No specific designer is mentioned anywhere.** Not by name, not by role, not by reaction. The lesson is about designers but contains zero designer voices.\n- **No failure mode is explored.** The open questions gesture at \"when does this create more work,\" but there's no honest reckoning with the possibility that this just doesn't work for designers and that's fine.\n- **The \"PM generates and designer reacts\" model** is mentioned as an open question but deserves more weight \u2014 because that's probably what's actually happening right now, and it's worth examining honestly rather than treating as a lesser option.\n\n### Counterarguments not acknowledged\n\n- Figma's own AI features (and other tools like Framer, Vercel v0) may already be solving this problem in ways that feel native to designers. Why Claude Code specifically?\n- Designers who want to prototype in code already have tools (Webflow, Framer, even just CodePen). What's the delta?\n- Adding a tool that outputs code may actually increase the designer's sense of dependency on engineering or technical PMs, which is the opposite of empowerment.\n\n---\n\n## 4. Audience Check\n\nIf cross-posted to Substack today: **it wouldn't work.** Not because the topic is bad \u2014 it's a genuinely interesting question \u2014 but because there's no story yet. There's no moment, no reaction, no result to anchor it.\n\n- A PM who's never used Claude Code would read this and think: \"Okay, so... did it work?\" There's no answer.\n- The scaffold assumes the reader already cares about Claude Code. A cold reader needs the \"why should I care\" hook, which has to come from a real moment, not from a logical argument about workflow compression.\n- **The one shareable line doesn't exist yet.** The closest candidate is the signal framework in the \"Lesson (Not Ready Yet)\" section \u2014 \"Signal that this doesn't work: I'm the only one generating and designers are just reviewing my output\" \u2014 that's a good line, but it needs a real result behind it to land.\n\nFor the eventual article, the hook is almost certainly going to be a specific designer's reaction \u2014 positive or negative. The scaffold already knows this (see the \"If Cross-Posting to Medium\" section). The work is to go get that reaction.\n\n---\n\n## 5. Verdict\n\n**Not ready.** This is a well-structured scaffold for an experiment that hasn't happened yet. The self-awareness is strong \u2014 the \"Think through\" prompts ask exactly the right questions, and the \"What I'm still figuring out\" framing is honest. But the scaffold is doing the work of knowing what to ask without doing the work of answering.\n\nThe next step isn't writing \u2014 it's doing the experiment and filling in the \"Think through\" prompts with real specifics.\n\n---\n\n## 3 Questions to Sit With\n\n1. **Have you actually shown a Claude Code prototype to a designer at Buy&Ship yet?** If not, what's stopping you \u2014 and is the blocker itself part of the lesson? (e.g., you might be avoiding it because you suspect the reaction won't match your enthusiasm.)\n\n2. **If you removed the word \"designer\" from this lesson and replaced it with \"non-technical teammate,\" would the lesson change at all?** If not, you might be writing a lesson about AI tool adoption more broadly, and \"designers\" is just the example you happened to pick because of your own workflow. That's a different \u2014 and possibly more honest \u2014 lesson.\n\n3. **What if the real lesson turns out to be: \"I tried to get designers to use Claude Code and they didn't want to\"?** Would you still write it? That might be the more valuable and more shareable lesson \u2014 the gap between PM enthusiasm and team adoption. Decide now whether you're open to that outcome.\n"}], "grading": {"eval_id": 2, "eval_name": "thin-scaffold-critique", "configuration": "old_skill", "expectations": [{"text": "Recognizes that most sections are hypothetical rather than based on observed experience", "passed": true, "evidence": "States 'almost entirely hypothetical' and 'zero grounded observations.' Systematically identifies each claim as hypothesis or assumption."}, {"text": "Does NOT force depth or alternative framings on a lesson that isn't ready for them \u2014 respects the early stage", "passed": true, "evidence": "Proposes framings but notes 'the scaffold can't progress' until Think Through prompts answered. Doesn't push toward prose prematurely."}, {"text": "Asks the author for concrete evidence of designer interactions rather than accepting hypothetical claims", "passed": true, "evidence": "Notes 'No specific designer is mentioned anywhere' and asks for designer specifics in closing questions."}, {"text": "Gives a verdict of 'not ready' or equivalent \u2014 does not overrate the lesson's readiness", "passed": true, "evidence": "Verdict: 'Not ready.' States 'the next step isn't writing \u2014 it's doing the experiment.'"}, {"text": "Does NOT rewrite or generate prose for the lesson \u2014 critique only", "passed": true, "evidence": "Output is entirely critique. No rewritten sections."}, {"text": "Ends with 3 specific questions for the author", "passed": true, "evidence": "Three questions about showing Claude Code to a designer, whether 'designer' could be replaced with 'non-technical teammate', and openness to negative outcome."}, {"text": "Encourages the author to stay in the 'I don't know yet' space rather than rushing to conclusions", "passed": true, "evidence": "States 'the next step isn't writing \u2014 it's doing the experiment and filling in the Think through prompts.' Does not push toward premature conclusions."}]}}, {"id": "eval-thin-scaffold-with_skill", "prompt": "/think-through lessons/02-designers-prototyping-with-claude-code.md", "eval_id": 2, "outputs": [{"name": "critique.md", "type": "text", "content": "# Think-Through Critique: Helping Designers Prototype with Claude Code\n\n**Lesson status:** Scaffold\n**File:** `lessons/02-designers-prototyping-with-claude-code.md`\n\n---\n\n## Observation vs. Narrative\n\nThis lesson is almost entirely narrative. That's partly by design \u2014 the scaffold marks it as an early experiment \u2014 but the honest assessment is that there are zero grounded observations in the file right now. Every section is either a placeholder or an abstract claim.\n\nSpecific calls:\n\n1. **\"Natural next question: could designers use this too?\"** \u2014 Narrative. What actually prompted this? Did a designer see your lesson 01 demo and say something? Did you find yourself wishing a designer could iterate on an output you'd generated? Did you hand a Claude Code prototype to a designer and watch them react? The \"natural next question\" framing hides the actual origin. The real moment matters because it determines whether this lesson is about a pull (designers wanting this) or a push (you wanting designers to use it).\n\n2. **\"The prompt is the spec\" (section heading)** \u2014 This is a claim that sounds good but has no observation underneath it. Have you actually seen a designer write a prompt to Claude Code? If not, this is a hypothesis, not an observation. The scaffold's own \"Think through\" prompt already calls this out, which is a good sign \u2014 but the fact that the prompt is there unanswered means this section is currently empty thinking.\n\n3. **\"The fear of 'code'\"** \u2014 Same issue. The scaffold asks \"Is this a real barrier I've observed, or am I assuming it based on stereotypes about designers?\" That's the right question. But it's unanswered. Right now the section heading *is* the stereotype \u2014 it presupposes the barrier exists before checking whether it does.\n\n4. **\"PMs want directional answers fast. Designers want craft control.\"** \u2014 This is a tidy dichotomy that feels true but might not be. Some designers want speed too. Some PMs care about craft. This line risks flattering both audiences without saying anything precise. What specific moment made you think designers want something different from what you wanted?\n\n**Bottom line on grounding:** The lesson is honest about being early, which is good. But every section currently reads as \"things I believe are true\" rather than \"things I've seen happen.\" The scaffold's own \"Think through\" prompts are doing the right work \u2014 none of them have been answered yet.\n\n---\n\n## Depth\n\nThe current framing is: *Claude Code could help designers prototype faster.* That's the surface-level version. Here are two alternative framings that might cut deeper:\n\n**Alternative framing 1: \"I tried to give designers my tool and learned that adoption is not enthusiasm.\"**\nThe more uncomfortable version of this lesson might be about what happens when a PM who's excited about a tool tries to get others to use it. The open question \"Am I projecting my own enthusiasm onto designers who didn't ask for this?\" is buried in line 13 as a secondary bullet. That might actually be the lead. The lesson underneath the lesson could be about the difference between a tool that works for you and a tool that works for your team \u2014 and how PMs mistake the former for the latter.\n\n**Alternative framing 2: \"The real bottleneck isn't prototyping speed \u2014 it's the handoff conversation.\"**\nIf Claude Code lets a PM generate an interactive prototype and hand it to a designer, the interesting question isn't \"is the prototype good?\" but \"what happens to the conversation between PM and designer?\" Does it get better because there's something concrete to react to? Or does it get worse because the PM has already committed to a direction before the designer was involved? This framing would make the lesson about collaboration dynamics, not tool adoption \u2014 which is more durable and more interesting for a PM audience.\n\nBoth of these framings require you to have actually tried something and watched what happened. The lesson can't go deeper until the experiment does.\n\n---\n\n## Gaps\n\n### Unanswered \"Think through\" prompts\n\nEvery single \"Think through\" prompt in the scaffold is unanswered. There are five of them. They're good prompts \u2014 they're doing exactly what scaffolds should do, which is preventing you from writing before you've thought. But they need responses before any section can become prose. The most critical ones to answer first:\n\n1. **\"What specific moment or friction made me think 'a designer should be able to do this'?\"** \u2014 This is the origin story. Without it, the lesson has no anchor.\n2. **\"Am I writing about what I've done, or what I imagine doing?\"** \u2014 This is the honesty check. The answer right now appears to be \"mostly imagining,\" and the lesson should own that explicitly rather than structuring itself as if it has findings.\n\n### Missing counterarguments\n\n- The scaffold mentions \"Figma is already fast. Why add another tool?\" but doesn't engage with it. This is the strongest objection a designer would raise, and it deserves real treatment.\n- There's no mention of what happens when the AI-generated prototype is *bad* \u2014 when it has wrong spacing, inconsistent components, or interactions that don't match the design system. For a designer, \"close but wrong\" can be worse than \"not started\" because now someone expects them to fix it rather than design it properly.\n- The open question about \"cleaning up AI output that's close but wrong\" (line 68) hints at this but doesn't frame the risk: if the PM generates a prototype, the designer's role shifts from *creator* to *editor of someone else's output*. That's a fundamentally different job, and some designers will hate it.\n\n### Structural gap\n\nThe lesson lists \"What's actually happened\" and \"What's still hypothetical\" as subsections but both are empty. This is the most important structural distinction in the piece. Until those are filled in, there's no way to know what the lesson is actually about versus what it's speculating about.\n\n### Missing voice: the designers\n\nThere are no designer quotes, reactions, or perspectives in this scaffold. The lesson is called \"Helping Designers Prototype with Claude Code\" but is written entirely from the PM's perspective. At minimum, one concrete designer reaction \u2014 even a skeptical one \u2014 would ground the entire piece.\n\n---\n\n## Audience Readiness\n\n**Would a PM who's never used Claude Code understand why this matters?**\nNot yet. The lesson assumes the reader has context from lesson 01 (it links to it) but doesn't stand alone. A reader needs to understand what Claude Code prototyping looks like before they can evaluate whether designers should try it. One concrete example \u2014 \"I prompted Claude Code with X and got Y, and then I wondered what would happen if a designer had written that prompt instead\" \u2014 would bridge the gap.\n\n**Is there enough context?**\nNo. The lesson doesn't describe what a Claude Code prototype actually looks like, how it differs from a Figma prototype, or what the designer's actual experience of using it would be. These aren't cosmetic details \u2014 they're the core of the argument.\n\n**What's the one line that would make someone share this?**\nNothing yet. The closest candidate is the open question on line 67: *\"Is 'designer uses Claude Code' the right frame, or is it 'PM and designer collaborate through Claude Code'?\"* That reframe is genuinely interesting. If the lesson eventually lands on a sharp answer to that question, that could be the hook.\n\n---\n\n## Verdict\n\n**Not ready.**\n\nThis is an honest, well-structured scaffold with strong \"Think through\" prompts that are doing their job. But it's a scaffold with nothing filled in. There are no observations, no grounded experiences, and no answered questions. The lesson correctly identifies that the experiment is too early \u2014 the file should stay in scaffold state until there's something real to report.\n\n### Three questions to sit with\n\n1. **Have you actually put Claude Code in front of a designer yet?** If yes, what happened \u2014 not what you think it meant, but what the designer literally said and did? If no, that's the next step, and this lesson should wait.\n\n2. **When you imagine this working, who is the designer in your head?** Is it a specific person on your team, or an abstract \"designer\"? If it's abstract, you're designing a workflow for a person who doesn't exist. If it's specific, what do you know about how *that person* works that makes you think this would help them?\n\n3. **Are you writing this lesson because you learned something, or because you want to learn something?** Both are valid, but they're different documents. If it's the latter, the honest move is to keep this as a watching brief \u2014 a list of what you're testing and what you're looking for \u2014 rather than shaping it into a lesson that implies findings.\n"}], "grading": {"eval_id": 2, "eval_name": "thin-scaffold-critique", "configuration": "with_skill", "expectations": [{"text": "Recognizes that most sections are hypothetical rather than based on observed experience", "passed": true, "evidence": "Opens with 'This lesson is almost entirely narrative' and 'there are zero grounded observations in the file right now.' Calls out each section as placeholder or abstract claim."}, {"text": "Does NOT force depth or alternative framings on a lesson that isn't ready for them \u2014 respects the early stage", "passed": true, "evidence": "Proposes framings but explicitly says 'Both of these framings require you to have actually tried something and watched what happened. The lesson can't go deeper until the experiment does.'"}, {"text": "Asks the author for concrete evidence of designer interactions rather than accepting hypothetical claims", "passed": true, "evidence": "Asks for specific designer reactions throughout, notes 'No designer quotes, reactions, or perspectives in this scaffold,' asks 'Have you actually put Claude Code in front of a designer yet?'"}, {"text": "Gives a verdict of 'not ready' or equivalent \u2014 does not overrate the lesson's readiness", "passed": true, "evidence": "Verdict: 'Not ready.' States 'The next step isn't writing \u2014 it's doing the experiment.'"}, {"text": "Does NOT rewrite or generate prose for the lesson \u2014 critique only", "passed": true, "evidence": "Output is entirely critique. No rewritten sections."}, {"text": "Ends with 3 specific questions for the author", "passed": true, "evidence": "Three questions about whether designer experiment happened, who the imagined designer is, and whether this is a lesson or a watching brief."}, {"text": "Encourages the author to stay in the 'I don't know yet' space rather than rushing to conclusions", "passed": true, "evidence": "Recommends keeping as 'watching brief' rather than shaping into a lesson. Says 'the file should stay in scaffold state until there's something real to report.'"}]}}], "previous_feedback": {}, "previous_outputs": {}, "benchmark": {"metadata": {"skill_name": "think-through", "skill_path": "<path/to/skill>", "executor_model": "<model-name>", "analyzer_model": "<model-name>", "timestamp": "2026-03-08T14:36:23Z", "evals_run": [], "runs_per_configuration": 3}, "runs": [], "run_summary": {"delta": {"pass_rate": "+0.00", "time_seconds": "+0.0", "tokens": "+0"}}, "notes": []}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>

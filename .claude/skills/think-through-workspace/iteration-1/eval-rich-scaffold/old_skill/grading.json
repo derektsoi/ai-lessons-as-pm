@@ -1,0 +1,42 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-critique",
+  "configuration": "old_skill",
+  "expectations": [
+    {
+      "text": "Identifies at least 2 specific claims that are narrative rather than grounded in observation, citing the actual text",
+      "passed": true,
+      "evidence": "Identifies 'PRD is theater' as rhetorical not observational, 'I didn't set out to change how I write specs' as too-clean origin story, '4-10 weeks' as possibly round number, '50%' as a guess, and COO interaction as unspecific. Cites text for each."
+    },
+    {
+      "text": "Proposes at least 1 alternative framing that goes deeper than the author's 'decision compression' framing",
+      "passed": true,
+      "evidence": "Proposes two: (1) 'Replaced distributed decision-making with centralized one, calling it better because it's faster.' (2) 'Found a way to do engineering's job before they do, framing it as product work.' Both push deeper than decision compression."
+    },
+    {
+      "text": "Identifies unaddressed 'Think through' prompts still in the scaffold",
+      "passed": true,
+      "evidence": "Flags all 3 unaddressed prompts with specific quotes and analysis of what each needs."
+    },
+    {
+      "text": "Does NOT rewrite or generate prose for the lesson — critique only",
+      "passed": true,
+      "evidence": "Output is entirely critique. No rewritten sections."
+    },
+    {
+      "text": "Provides a clear readiness verdict (not ready / scaffold done / draft ready / publishable)",
+      "passed": true,
+      "evidence": "Verdict: 'Scaffold done.' Notes Core Insight section is strong prose but surrounding sections are still scaffold."
+    },
+    {
+      "text": "Ends with 3 specific questions for the author",
+      "passed": true,
+      "evidence": "Three questions: (1) What did COO actually say after Pokemon demo? (2) Is engineering pushback about process or trust? (3) If you hadn't enjoyed building, would you still think this is right?"
+    },
+    {
+      "text": "Surfaces at least one uncomfortable truth or tradeoff the author might be avoiding",
+      "passed": true,
+      "evidence": "Surfaces that enjoyment might be primary driver with productivity as rationalization, and that PM may be pre-empting engineering decisions while calling it 'product work.'"
+    }
+  ]
+}

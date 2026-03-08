@@ -1,0 +1,42 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-review",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Spawns 3 distinct reviewer perspectives (Skeptic, Outside Reader, PM Peer)",
+      "passed": true,
+      "evidence": "Three clearly labeled agents: 'Agent 1: The Skeptic', 'Agent 2: The Outside Reader', 'Agent 3: The PM Peer', each with a stated perspective prompt."
+    },
+    {
+      "text": "Each agent has a distinct voice and perspective, not generic or interchangeable",
+      "passed": true,
+      "evidence": "Skeptic focuses on honesty vs hype ('sounds like a tech blog post, not a lesson'), Outside Reader flags jargon and confusion ('I don't know what MCP is'), PM Peer draws from parallel experience ('I've tried this and it can create resentment'). Voices are clearly distinct."
+    },
+    {
+      "text": "Includes a synthesis section that identifies agreements and disagreements across reviewers",
+      "passed": true,
+      "evidence": "Full 'Synthesis' section with 'Where all 3 agree' (3 items), 'Where they disagree' (3 tensions), ranked changes, and a closing question."
+    },
+    {
+      "text": "Provides a ranked list of suggested changes prioritized by impact",
+      "passed": true,
+      "evidence": "'Top 5 changes, ranked by impact on lesson quality': (1) Show a Golden Conversation, (2) Replace a 'What I Got Wrong' item with a real failure, (3) Reconcile 'anyone can be demo owner' with 'judgment is higher-leverage', (4) Cut output metrics, (5) Scope 'PRD is theater' claim."
+    },
+    {
+      "text": "Each agent gives specific, actionable feedback with concrete suggestions, not vague praise",
+      "passed": true,
+      "evidence": "Each agent provides 3 ranked feedback items with specific actions. E.g., Skeptic: 'Show a failure, not just caveats — was there a golden conversation that turned out to be wrong?' PM Peer: 'Address the anchoring problem directly.'"
+    },
+    {
+      "text": "Reviewers cite specific text or sections from the lesson to support their points",
+      "passed": true,
+      "evidence": "Multiple direct quotes: '2,383-line agent I/O specification', 'I enjoy this is not the same as this is the right use of PM time', 'if my judgment is wrong, it's wrong at scale'. References specific sections by name."
+    },
+    {
+      "text": "Ends with a key question the author should answer before revising",
+      "passed": true,
+      "evidence": "'What is the single most important product decision that came out of a Golden Conversation — and would that decision have been made differently (or later, or worse) under the old PRD workflow?'"
+    }
+  ]
+}

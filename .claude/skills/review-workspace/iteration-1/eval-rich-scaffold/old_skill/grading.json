@@ -1,0 +1,42 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-review",
+  "configuration": "old_skill",
+  "expectations": [
+    {
+      "text": "Spawns 3 distinct reviewer perspectives (Skeptic, Outside Reader, PM Peer)",
+      "passed": true,
+      "evidence": "Three agents: 'Agent 1: The Skeptic', 'Agent 2: The Outside Reader', 'Agent 3: The PM Peer', each with explicit perspective statements."
+    },
+    {
+      "text": "Each agent has a distinct voice and perspective, not generic or interchangeable",
+      "passed": true,
+      "evidence": "Skeptic is aggressive and challenges credibility ('the Pokemon API identification mismatch reads like a humble-brag'). Outside Reader is confused by jargon ('I don't know what MCP is'). PM Peer draws from personal experience ('I've had projects where an early demo made it harder to pivot'). Distinctly different tones."
+    },
+    {
+      "text": "Includes a synthesis section that identifies agreements and disagreements across reviewers",
+      "passed": true,
+      "evidence": "Full synthesis with 'Where All 3 Agree' (3 items), 'Where They Disagree' (3 tensions), top 5 ranked changes, and closing question."
+    },
+    {
+      "text": "Provides a ranked list of suggested changes prioritized by impact",
+      "passed": true,
+      "evidence": "Top 5 changes: (1) Restructure so uncomfortable insights lead, (2) Confront engineering relationship, (3) Cut Claude Code feature-list material, (4) Separate method from tool, (5) Add user validation step."
+    },
+    {
+      "text": "Each agent gives specific, actionable feedback with concrete suggestions, not vague praise",
+      "passed": true,
+      "evidence": "Skeptic: 'Lead with the uncomfortable stuff — the piece buries its best material in What I Got Wrong.' PM Peer: 'Take the engineering tension seriously — engineering's role shifts from co-creator to implementor.' Each agent gives 3 ranked items."
+    },
+    {
+      "text": "Reviewers cite specific text or sections from the lesson to support their points",
+      "passed": true,
+      "evidence": "Quotes: 'if my judgment is wrong, it's wrong at scale and it looks authoritative', 'I found this before any engineer touched the project', '2,383-line agent I/O specification'. References Core Insight, What I Got Wrong, and other sections by name."
+    },
+    {
+      "text": "Ends with a key question the author should answer before revising",
+      "passed": true,
+      "evidence": "'If your lead engineer read this piece, would they feel like a collaborator in the story you're telling — or would they feel like the person who was told what to build?'"
+    }
+  ]
+}

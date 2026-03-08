@@ -1,0 +1,42 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-critique",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Identifies at least 2 specific claims that are narrative rather than grounded in observation, citing the actual text",
+      "passed": true,
+      "evidence": "Identifies '50% of the time we got it wrong' as ungrounded estimate, COO reaction as constructed narrative, 'PRD is theater' as conclusion without concrete moment, and stakeholder reactions as unsupported. Cites specific text from the lesson for each."
+    },
+    {
+      "text": "Proposes at least 1 alternative framing that goes deeper than the author's 'decision compression' framing",
+      "passed": true,
+      "evidence": "Proposes two: (1) 'Replaced a collective thinking process with a solo one' — distributed vs centralized judgment. (2) 'Demo is evidence but only supports earlier decisions, not better decisions' — challenges the core claim."
+    },
+    {
+      "text": "Identifies unaddressed 'Think through' prompts still in the scaffold",
+      "passed": true,
+      "evidence": "Flags all 3 unaddressed prompts: old workflow diagnosis, engineering concern framing, and failure experience. Quotes each prompt and notes what's missing."
+    },
+    {
+      "text": "Does NOT rewrite or generate prose for the lesson — critique only",
+      "passed": true,
+      "evidence": "Output is entirely critique and analysis. No rewritten sections or generated prose."
+    },
+    {
+      "text": "Provides a clear readiness verdict (not ready / scaffold done / draft ready / publishable)",
+      "passed": true,
+      "evidence": "Verdict: 'Draft ready (for the core insight section)' with nuance that surrounding scaffold needs expansion or cutting."
+    },
+    {
+      "text": "Ends with 3 specific questions for the author",
+      "passed": true,
+      "evidence": "Three questions: (1) Did COO actually give different-quality feedback on demo vs PRD? (2) What if old workflow's slowness was time others needed to form understanding? (3) What if 'It's both' was the center of the lesson?"
+    },
+    {
+      "text": "Surfaces at least one uncomfortable truth or tradeoff the author might be avoiding",
+      "passed": true,
+      "evidence": "Surfaces that demo's concreteness may create anchoring effect making it harder to challenge, and that enjoyment-vs-effectiveness might mean enjoyment is primary driver with productivity as rationalization."
+    }
+  ]
+}

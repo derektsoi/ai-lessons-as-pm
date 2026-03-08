@@ -1,0 +1,42 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-scaffold-review",
+  "prompt": "/review lessons/01-building-demos-with-claude-code.md",
+  "assertions": [
+    {
+      "id": "three-agents",
+      "text": "Spawns 3 distinct reviewer perspectives (Skeptic, Outside Reader, PM Peer)",
+      "type": "structural"
+    },
+    {
+      "id": "distinct-voices",
+      "text": "Each agent has a distinct voice and perspective, not generic or interchangeable",
+      "type": "qualitative"
+    },
+    {
+      "id": "synthesis",
+      "text": "Includes a synthesis section that identifies agreements and disagreements across reviewers",
+      "type": "structural"
+    },
+    {
+      "id": "ranked-changes",
+      "text": "Provides a ranked list of suggested changes prioritized by impact",
+      "type": "structural"
+    },
+    {
+      "id": "specific-feedback",
+      "text": "Each agent gives specific, actionable feedback with concrete suggestions, not vague praise",
+      "type": "qualitative"
+    },
+    {
+      "id": "grounds-in-text",
+      "text": "Reviewers cite specific text or sections from the lesson to support their points",
+      "type": "qualitative"
+    },
+    {
+      "id": "closing-question",
+      "text": "Ends with a key question the author should answer before revising",
+      "type": "structural"
+    }
+  ]
+}
