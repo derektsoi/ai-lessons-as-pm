@@ -1,7 +1,7 @@
 ---
 name: review
 description: "Multi-perspective agent team review. Spawns 3 agents (Skeptic, Outside Reader, PM Peer) to critique a lesson from different angles, then synthesizes their feedback. Use when user invokes /review with a lesson file path. Also use when the user asks for 'multiple perspectives', 'panel review', or 'get different viewpoints on this lesson'."
-disable-model-invocation: true
+disable-model-invocation: false
 argument-hint: "lessons/XX-topic.md"
 ---
 

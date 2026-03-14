@@ -1,7 +1,7 @@
 ---
 name: draft
 description: "Help expand a specific section of a lesson from bullets to prose. Asks pointed questions, waits for answers, then shapes into the author's voice. Use when user invokes /draft with a lesson file path and optional section name. Also use when a user says 'help me write this section', 'expand this part', or 'turn these bullets into prose' in the context of a lesson file."
-disable-model-invocation: true
+disable-model-invocation: false
 argument-hint: 'lessons/XX-topic.md "Section Name"'
 ---
 

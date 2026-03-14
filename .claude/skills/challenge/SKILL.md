@@ -1,7 +1,7 @@
 ---
 name: challenge
 description: "Adversarial review of a lesson. Stress-tests conclusions for survivorship bias, attribution error, sample size, and cost accounting. Use when user invokes /challenge with a lesson file path. Also use when a user says things like 'argue against this', 'what's wrong with this', 'play devil's advocate', or 'stress-test this lesson' — even without saying /challenge."
-disable-model-invocation: true
+disable-model-invocation: false
 argument-hint: "lessons/XX-topic.md"
 ---
 

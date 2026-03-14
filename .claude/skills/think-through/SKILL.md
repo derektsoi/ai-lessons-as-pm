@@ -1,7 +1,7 @@
 ---
 name: think-through
 description: "Structured critique of a lesson draft. Checks whether observations are grounded, whether the lesson goes deep enough, what's missing, and whether it's ready for readers. Use when user invokes /think-through with a lesson file path. Also use proactively when a user shares a lesson draft and asks for feedback, critique, or 'what do you think' — even if they don't say /think-through explicitly."
-disable-model-invocation: true
+disable-model-invocation: false
 argument-hint: "lessons/XX-topic.md"
 ---
 

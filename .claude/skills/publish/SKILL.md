@@ -1,7 +1,7 @@
 ---
 name: publish
 description: "Convert a lesson scaffold into a publishable Substack article. Strips scaffold elements, produces clean prose, picks the sharpest title. Use when user invokes /publish with a lesson file path. Also use when the user says 'make this ready for Substack', 'convert to article', or 'prepare for publishing'."
-disable-model-invocation: true
+disable-model-invocation: false
 argument-hint: "lessons/XX-topic.md"
 ---
 

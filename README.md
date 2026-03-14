@@ -14,7 +14,9 @@ Writing these lessons is how I process what I've learned. The act of articulatin
 
 1. [Building product demos with Claude Code](lessons/01-building-demos-with-claude-code.md) — Using AI to generate directional mockups for quarterly planning, instead of waiting for a design sprint.
 2. [Helping designers prototype with Claude Code](lessons/02-designers-prototyping-with-claude-code.md) — Early experiments in enabling non-engineers to use Claude Code for UI prototyping.
-3. _The old safety net is gone and we don't have a replacement yet. Slow iteration used to catch weak judgment — designer pushback in week 2, engineer flags in week 4. Now AI-built demos look authoritative before anyone checks the thinking._ (future)
+3. [When planning-first becomes a trap](lessons/03-when-planning-first-becomes-a-trap.md) — The PM instinct to plan thoroughly works when feedback is fast. When it's not, the same instinct inflates complexity instead of compressing decisions.
+4. [You can't engineer AI adoption](lessons/04-you-cant-engineer-ai-adoption.md) — Trying to get the product team to use AI tools. Technical background doesn't predict adoption, forcing mostly doesn't work, and I can't identify the mechanism.
+5. _The old safety net is gone and we don't have a replacement yet._ (future)
 
 ## About
 
