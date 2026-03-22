@@ -69,7 +69,7 @@ Every lesson follows this sequence. After completing any step, state the next st
 
 Max 2 returns to any earlier step. After discussion that produces new insights, update the scaffold before suggesting the next step.
 
-@./.claude/lesson-workflow.md
+@.claude/lesson-workflow.md
 
 ## Skills
 
