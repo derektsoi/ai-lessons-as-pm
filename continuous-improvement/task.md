@@ -408,6 +408,21 @@ If functional test passes → Session E complete.
 
 **Total: 46 unit tests, 6 functional tests, 4-5 integration/E2E tests = 56-57 verification points**
 
+### Skill Evals — All 6 Passed (2026-03-22)
+
+Results at `.claude/skills/evals/iteration-1/`. All assertions verified.
+
+| Eval | Skill | Assertions | Result |
+|------|-------|------------|--------|
+| 1 | /challenge (with core message) | 6/6 | PASS |
+| 2 | /challenge (BLOCKED) | 3/3 | PASS |
+| 3 | /copyedit (cold read) | 6/6 | PASS |
+| 4 | /publish (cut list) | 5/5 | PASS |
+| 5 | /think-through (SUCCESS) | 4/4 | PASS |
+| 6 | /review (4-agent panel) | 4/4 | PASS |
+
+---
+
 ### Changes from v1 → v2 (based on expert reviews)
 
 | Issue | Fix applied |
