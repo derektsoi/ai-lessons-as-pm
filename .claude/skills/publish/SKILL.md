@@ -60,7 +60,7 @@ The lesson file is the author's thinking space — it has scaffolds, prompts, ra
    - Check opening against Simple + Unexpected: does the first paragraph hook a reader who sees this in their inbox?
    - Check emotional arc against Emotional + Stories: does the middle have at least one felt moment, or is it pure analysis?
 
-4. **Conversion review — cut list:**
+4. **Produce a `## Cut List` section** in your output.
 
    List everything you cut — section by section. For each cut, tag it:
    - **[Scaffold-only]** — prompts, raw material, file paths, "Think through" blocks — routine, no need to discuss
@@ -75,4 +75,4 @@ The lesson file is the author's thinking space — it has scaffolds, prompts, ra
    - "Does the title capture the sharpest insight?"
    - "Does the opening give enough context without the scaffold?"
 
-   **GATE: Do not proceed to /copyedit until the author approves the cut list.**
+   **GATE: Present the cut list and wait for author approval before proceeding to /copyedit.**
