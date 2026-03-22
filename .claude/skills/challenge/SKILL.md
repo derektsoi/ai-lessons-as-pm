@@ -7,7 +7,16 @@ argument-hint: "lessons/XX-topic.md"
 
 Adversarial review of the lesson file at $ARGUMENTS (e.g., `/challenge lessons/01-building-demos-with-claude-code.md`).
 
-Read the lesson file, then argue against it. Your job is to stress-test every conclusion.
+Read the lesson file, then locate the `> Core message (1 sentence):` line.
+
+```
+Core message: [present/missing]
+Status: [READY/BLOCKED]
+```
+
+If BLOCKED (core message missing), output: **BLOCKED: Core message required. Run /think-through first, then return here.** Do not proceed to challenges.
+
+If READY, your challenges should test whether this core message holds. Argue against it.
 
 ## Why this matters
 
@@ -35,6 +44,8 @@ Distinguish between "this is wrong" and "this is incomplete." A claim can be tru
 
 **The uncomfortable question** — What's the one thing about this experience you're avoiding writing about? Why?
 
+**Credibility** — Evaluate whether claims are Credible — backed by specific evidence, not asserted. If a claim sounds authoritative but has no source, flag it.
+
 ## Output format
 
 For each challenge:
@@ -43,3 +54,12 @@ For each challenge:
 - Whether this is a fatal flaw, a weakness to acknowledge, or a valid tradeoff the author should own
 
 End with: **"The lesson survives if..."** — state what the author needs to demonstrate for the core lesson to hold up.
+
+## Phase 2: Deepen disputed claims
+
+After presenting your initial challenges, assess each one:
+
+- **Empirical claims** (e.g., "infrastructure matters more than practice hours") — search for supporting or contradicting research using web search. Present what you find alongside the challenge.
+- **Philosophical/leadership claims** (e.g., "managers are accountable for team adoption") — spawn a 3-agent debate: one arguing for, one against, one synthesizing. Present the debate result.
+
+Do not leave disputed claims as assertions. The author should receive the challenge AND the evidence in one pass, not have to request follow-up research manually.

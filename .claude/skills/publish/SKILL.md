@@ -13,7 +13,16 @@ The lesson file is the author's thinking space — it has scaffolds, prompts, ra
 
 ## Steps
 
-1. **Read the lesson file** at `$ARGUMENTS`. Identify the lesson number from the filename (e.g., `01` from `lessons/01-topic.md`).
+1. **Read the lesson file** at `$ARGUMENTS`. Identify the lesson number from the filename (e.g., `01` from `lessons/01-topic.md`). Locate the `> Core message (1 sentence):` line.
+
+   ```
+   Core message: [present/missing]
+   Status: [READY/BLOCKED]
+   ```
+
+   If BLOCKED (core message missing), output: **BLOCKED: Core message required. Run /think-through first, then return here.** Do not proceed to conversion.
+
+   If READY, the Substack article's thesis must be this core message. If the published draft doesn't clearly deliver it, flag the disconnect.
 
 2. **Produce a Substack-ready draft** saved as `lessons/XX-substack-draft.md` (using the same lesson number).
 
@@ -47,7 +56,23 @@ The lesson file is the author's thinking space — it has scaffolds, prompts, ra
    - Willing to say "I don't know" or "it's both"
    - No filler phrases added during conversion
 
-4. **Show the user the draft** and ask:
+   **Voice check (SUCCESS):**
+   - Check opening against Simple + Unexpected: does the first paragraph hook a reader who sees this in their inbox?
+   - Check emotional arc against Emotional + Stories: does the middle have at least one felt moment, or is it pure analysis?
+
+4. **Conversion review — cut list:**
+
+   List everything you cut — section by section. For each cut, tag it:
+   - **[Scaffold-only]** — prompts, raw material, file paths, "Think through" blocks — routine, no need to discuss
+   - **[Content-cut]** — prose, bullets with real thinking, honest admissions — flag for the author
+
+   For any content cut, ask: "I cut this. Was that the right call, or was this the sharpest part?" Pay special attention to:
+   - Uncomfortable admissions or "what I got wrong" content
+   - "Think through" prompts that generated real thinking in the draft
+   - "What I'm still figuring out" content beyond what made it into the closing
+
+   Then ask:
    - "Does the title capture the sharpest insight?"
-   - "Does the opening give enough context?"
-   - "Anything that should stay that I cut, or vice versa?"
+   - "Does the opening give enough context without the scaffold?"
+
+   **GATE: Do not proceed to /copyedit until the author approves the cut list.**

@@ -44,10 +44,38 @@ Each lesson file progresses through states:
 - `> Status: Draft` — prose written, needs critique and refinement
 - `> Status: Published` — finalized, cross-posted to Substack
 
+After /think-through, add a core message block to the file:
+- `> Core message (1 sentence):` — the lesson in one line
+- `> Core message (full):` — 2-3 sentences expanding the above
+
+The core message is a living field — update it as the lesson evolves. All downstream skills read it before executing.
+
+## Lesson Workflow (Mandatory Sequence)
+
+Every lesson follows this sequence. After completing any step, state the next step. Do not skip steps.
+
+0. **Interview** — "Tell me what happened." Surface stories, probe for specifics. Exit: topic agreed + entry question.
+1. **Scaffold** — Create `lessons/XX-topic.md` with prompts.
+2. **/think-through** — Structured critique. Exit: scaffold updated, core message stated, 3 closing questions answered.
+3. **/challenge** — Adversarial stress-test. Exit: challenges addressed, "survives if..." in scaffold. IF core message broke → return to step 2.
+4. **/draft** — Expand to prose. Exit: all sections in prose. For full article: parallel agents, one per section.
+5. **/review** — 4-agent panel. Exit: top 5 changes (tagged: patch/restructure/rethink). IF rethink → return to step 2. IF restructure → return to step 4.
+6. **Revise** — Work through top 5: accept/reject/modify each. Answer convergence question first.
+7. **/publish** — Convert to `lessons/XX-substack-draft.md`. Must list cuts. GATE: author approves cuts.
+8. **/copyedit** — Cold read of Substack draft. IF structural issues → return to step 7.
+9. **Post** — Manual: paste into Substack, record URL. Status → Published.
+10. **Retro** — What worked, what didn't. Exit: `continuous-improvement/lesson-XX-retro.md`.
+11. **Improve** — Fork conversation, invoke @infrastructure-expert.
+
+Max 2 returns to any earlier step. After discussion that produces new insights, update the scaffold before suggesting the next step.
+
+@./.claude/lesson-workflow.md
+
 ## Skills
 
-- `/think-through` — Structured critique of a lesson draft. Challenges assumptions, finds gaps, pushes toward the real lesson.
-- `/challenge` — Adversarial review. Argues against my conclusions to stress-test them.
-- `/review` — Multi-perspective agent team review. Spawns 3 agents (skeptic, outside reader, PM peer) to critique a draft from different angles.
-- `/draft` — Helps expand a specific section from bullets to prose, while maintaining my voice and staying grounded in real experience.
-- `/publish` — Convert a lesson scaffold into a Substack-ready article. Strips scaffold elements, produces clean prose.
+- `/think-through` — Structured critique. Challenges assumptions, finds gaps, pushes toward the real lesson.
+- `/challenge` — Adversarial review with debate agents. Argues against conclusions, searches for evidence on disputed claims.
+- `/review` — Multi-perspective agent team review. Spawns 4 agents (Skeptic, Outside Reader, PM Peer, Leadership Expert).
+- `/draft` — Helps expand a specific section from bullets to prose, maintaining voice and grounding in real experience.
+- `/publish` — Convert scaffold to Substack article. Produces cut list for author review.
+- `/copyedit` — Sentence-level cold read of Substack draft. Flags prose issues, generates SEO fields.

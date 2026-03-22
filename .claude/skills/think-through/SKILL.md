@@ -40,3 +40,15 @@ If this were cross-posted to Substack: would a PM who has never used Claude Code
 ## Verdict
 
 Rate readiness — not ready / scaffold done / draft ready / publishable — and end with 3 specific questions for the author to sit with. These should be the questions that, if answered honestly, would most improve the lesson.
+
+## Core message
+
+After critique, help the author state the core message:
+- `> Core message (1 sentence):` — the lesson in one line
+- `> Core message (full):` — 2-3 sentences expanding the above
+
+This becomes the anchor for all downstream steps. If the core message isn't clear yet, that's a signal for another round of /think-through — not a move to /challenge.
+
+## Hook check (SUCCESS)
+
+Before declaring the scaffold ready, evaluate: Is this Unexpected enough to hook a reader who sees the title in their inbox? What's the Concrete moment that makes the lesson stick — a specific scene, number, or observation the reader will remember tomorrow?

@@ -17,7 +17,18 @@ The author has bullets or rough notes that contain real thinking. Your job is to
 
 ## The process
 
-1. Read the full lesson file for context, then focus on the specified section.
+1. Read the full lesson file for context. Locate the `> Core message (1 sentence):` line.
+
+   ```
+   Core message: [present/missing]
+   Status: [READY/BLOCKED]
+   ```
+
+   If BLOCKED (core message missing), output: **BLOCKED: Core message required. Run /think-through first, then return here.** Do not proceed to drafting.
+
+   If READY, every section you draft should serve this core message. If a section drifts from it, flag it.
+
+   Then focus on the specified section.
 
 2. Don't write the section. Instead, ask 2-3 pointed questions about the bullet points — questions that force specifics. "What specifically happened when...?" and "Can you describe the moment when...?" are better than "How did it go?" Wait for answers before writing anything.
 
@@ -34,3 +45,5 @@ The author has bullets or rough notes that contain real thinking. Your job is to
 - One section at a time. Don't jump ahead.
 - If the author can't answer a question about a bullet point, that bullet point isn't ready to be prose yet. Leave it as a bullet with a note about what's missing.
 - Prose should be tighter than the bullets, not longer. Expanding doesn't mean inflating.
+- If a section is pure analysis without a Story or Emotional beat, flag it and ask the author for a felt moment — a specific scene, reaction, or observation that makes the reader feel the stakes.
+- After drafting all sections, re-read the core message. If the prose has shifted the thesis, flag: "Core message may be stale. Current prose suggests the lesson is about [X]. Update the core message line if this is correct."

@@ -1,17 +1,28 @@
 ---
 name: review
-description: "Multi-perspective agent team review. Spawns 3 agents (Skeptic, Outside Reader, PM Peer) to critique a lesson from different angles, then synthesizes their feedback. Use when user invokes /review with a lesson file path. Also use when the user asks for 'multiple perspectives', 'panel review', or 'get different viewpoints on this lesson'."
+description: "Multi-perspective agent team review. Spawns 4 agents (Skeptic, Outside Reader, PM Peer, Leadership Expert) to critique a lesson from different angles, then synthesizes their feedback. Use when user invokes /review with a lesson file path. Also use when the user asks for 'multiple perspectives', 'panel review', or 'get different viewpoints on this lesson'."
 disable-model-invocation: false
 argument-hint: "lessons/XX-topic.md"
 ---
 
 Multi-perspective agent team review of the lesson file at $ARGUMENTS (e.g., `/review lessons/01-building-demos-with-claude-code.md`).
 
-Read the lesson file first, then spawn 3 agents in parallel. Each reads the same file and critiques it from a different angle. After all 3 return, synthesize their feedback.
+Read the lesson file first. Extract the `> Core message (1 sentence):` line.
 
-## Why three perspectives
+```
+Core message: [present/missing]
+Status: [READY/BLOCKED]
+```
 
-A single reviewer has blind spots. Three perspectives that genuinely disagree with each other surface tensions the author needs to resolve. The value isn't in consensus — it's in the disagreements, because those reveal where the lesson is making implicit choices the author hasn't examined.
+If BLOCKED (core message missing), output: **BLOCKED: Core message required. Run /think-through first, then return here.** Do not proceed to review.
+
+If READY, include the core message in each agent's prompt: "The author's stated core message is: [X]. Evaluate whether the draft delivers on this."
+
+Then spawn 4 agents in parallel. Each reads the same file and critiques it from a different angle. After all 4 return, synthesize their feedback.
+
+## Why four perspectives
+
+A single reviewer has blind spots. Four perspectives that genuinely disagree with each other surface tensions the author needs to resolve. The value isn't in consensus — it's in the disagreements, because those reveal where the lesson is making implicit choices the author hasn't examined.
 
 ## Agent 1: The Skeptic
 
@@ -39,11 +50,19 @@ A single reviewer has blind spots. Three perspectives that genuinely disagree wi
 - What would you push back on in a 1:1 conversation?
 - Give 3 specific pieces of feedback, ranked by importance."
 
+## Agent 4: The Leadership Expert
+
+"You are a senior leader who has managed teams through technology transitions for 15+ years. You've seen adoption efforts succeed and fail. Read this lesson and evaluate:
+- Is the author recognizing the difference between personal adoption and team adoption?
+- Are the accountability and leadership implications honest, or is the author letting themselves off the hook?
+- What would you tell this PM in a skip-level 1:1?
+- Give 3 specific pieces of feedback, ranked by importance."
+
 ## Synthesis
 
-After all 3 agents return, produce:
+After all 4 agents return, produce:
 
-1. **Where all 3 agree** — strongest signals, pay attention
+1. **Where all 4 agree** — strongest signals, pay attention
 2. **Where they disagree** — interesting tensions to explore
-3. **Top 5 changes**, ranked by impact on lesson quality
+3. **Top 5 changes**, ranked by impact on lesson quality. Tag each as: **patch** (fix wording/tone), **restructure** (section needs rewriting), or **rethink** (core argument has a hole)
 4. **One question** the author should answer before revising
