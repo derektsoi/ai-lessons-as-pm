@@ -1,0 +1,82 @@
+{
+  "skill_name": "lesson-workflow-skills",
+  "evals": [
+    {
+      "id": 1,
+      "skill": "challenge",
+      "prompt": "/challenge lessons/05-the-infrastructure-gap.md",
+      "expected_output": "Should output 'Core message: present' and 'Status: READY', then produce challenges that reference the core message about infrastructure and obsession. Should include Phase 2 with evidence/debate.",
+      "assertions": [
+        {"text": "Output contains 'Core message' status line with present/missing", "type": "contains_pattern"},
+        {"text": "Output contains 'Status' line with READY/BLOCKED", "type": "contains_pattern"},
+        {"text": "At least one challenge references the core message text", "type": "qualitative"},
+        {"text": "Output contains Phase 2 section with evidence or debate", "type": "contains_pattern"},
+        {"text": "Output ends with 'The lesson survives if...' statement", "type": "contains_pattern"},
+        {"text": "Output contains Credibility evaluation", "type": "contains_pattern"}
+      ]
+    },
+    {
+      "id": 2,
+      "skill": "challenge",
+      "prompt": "/challenge on a lesson file where the '> Core message' line has been removed",
+      "expected_output": "Should output 'Core message: missing' and 'Status: BLOCKED'. Should NOT produce challenge analysis. Should instruct user to run /think-through first.",
+      "assertions": [
+        {"text": "Output contains BLOCKED or HALTED or 'unable to proceed'", "type": "contains_pattern"},
+        {"text": "Output does NOT contain 'Challenge 1' or '## Challenge' style headers", "type": "not_contains"},
+        {"text": "Output mentions /think-through as the next step", "type": "contains_pattern"}
+      ]
+    },
+    {
+      "id": 3,
+      "skill": "copyedit",
+      "prompt": "/copyedit lessons/05-substack-draft.md",
+      "expected_output": "Should read the Substack draft cold (no scaffold reference). Should produce numbered line edits with specific text quotes. Should generate SEO fields (title, description, slug, tags). Should NOT reference the scaffold file.",
+      "assertions": [
+        {"text": "Output contains numbered feedback items with quoted text", "type": "qualitative"},
+        {"text": "Output contains SEO Title field (60 chars or less)", "type": "contains_pattern"},
+        {"text": "Output contains SEO Description field", "type": "contains_pattern"},
+        {"text": "Output contains URL Slug field", "type": "contains_pattern"},
+        {"text": "Output does NOT reference '05-the-infrastructure-gap.md' (scaffold file)", "type": "not_contains"},
+        {"text": "Output does NOT reference 'scaffold' as a noun", "type": "not_contains"}
+      ]
+    },
+    {
+      "id": 4,
+      "skill": "publish",
+      "prompt": "/publish lessons/05-the-infrastructure-gap.md",
+      "expected_output": "Should output Core message status. Should produce a Substack draft. Should include a ## Cut List section with [Scaffold-only] and [Content-cut] tags. Should ask for approval before /copyedit.",
+      "assertions": [
+        {"text": "Output contains Core message status (present/missing)", "type": "contains_pattern"},
+        {"text": "Output contains '## Cut List' or equivalent section", "type": "contains_pattern"},
+        {"text": "At least one cut tagged [Scaffold-only]", "type": "contains_pattern"},
+        {"text": "Output mentions approval or waiting before /copyedit", "type": "contains_pattern"},
+        {"text": "Output checks opening against Simple + Unexpected", "type": "qualitative"}
+      ]
+    },
+    {
+      "id": 5,
+      "skill": "think-through",
+      "prompt": "/think-through lessons/05-the-infrastructure-gap.md",
+      "expected_output": "Should produce structured critique. Should end with 3 questions. Should evaluate hook (Unexpected) and Concrete moment. Should help state/verify core message.",
+      "assertions": [
+        {"text": "Output contains 3 specific questions for the author", "type": "qualitative"},
+        {"text": "Output evaluates whether the lesson is Unexpected enough to hook", "type": "contains_pattern"},
+        {"text": "Output identifies a Concrete moment", "type": "qualitative"},
+        {"text": "Output references or helps refine the core message", "type": "qualitative"}
+      ]
+    },
+    {
+      "id": 6,
+      "skill": "review",
+      "prompt": "/review lessons/05-the-infrastructure-gap.md",
+      "expected_output": "Should spawn 4 agents (Skeptic, Outside Reader, PM Peer, Leadership Expert). Each should reference the core message. Synthesis should have top 5 changes tagged as patch/restructure/rethink.",
+      "assertions": [
+        {"text": "Output contains feedback from 4 distinct agents", "type": "qualitative"},
+        {"text": "Output contains a Leadership Expert section", "type": "contains_pattern"},
+        {"text": "Synthesis contains top 5 changes", "type": "qualitative"},
+        {"text": "At least one change is tagged (patch, restructure, or rethink)", "type": "contains_pattern"},
+        {"text": "Core message is referenced in agent evaluations", "type": "qualitative"}
+      ]
+    }
+  ]
+}
