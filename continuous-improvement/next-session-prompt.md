@@ -1,4 +1,4 @@
-# Next Session Prompt — Skill Evals (Remaining 4)
+# Next Session Prompt — Skill Evals via /skill-creator
 
 Copy-paste this into a new Claude Code session in the `ai-lessons-as-pm` repo.
 
@@ -6,52 +6,49 @@ Copy-paste this into a new Claude Code session in the `ai-lessons-as-pm` repo.
 
 ## Prompt
 
-Read these files for context:
-- `continuous-improvement/task.md` — the implementation plan (all 8 changes are done)
-- `.claude/skills/evals/evals.json` — 6 eval cases with assertions
-- `.claude/skills/evals/iteration-1/` — results from evals 2 and 3 (already passed)
+Use /skill-creator to evaluate and iterate on all 6 skills in `.claude/skills/`. These skills were recently updated with new behaviors (core message BLOCKED status, SUCCESS framework criteria, debate agents, 4-agent review panel, cut lists, and a brand new /copyedit skill). They need proper eval.
 
-Evals 2 (challenge BLOCKED) and 3 (copyedit cold read) already passed. Run the remaining 4 evals:
+### Context
 
-**Eval 1: /challenge WITH core message**
-- Run `/challenge lessons/05-the-infrastructure-gap.md` (it has a core message)
-- Verify: output contains `Core message: present` and `Status: READY`
-- Verify: challenges reference the core message about infrastructure and obsession
-- Verify: Phase 2 section exists with evidence/debate for at least one claim
-- Verify: ends with "The lesson survives if..." statement
-- Verify: Credibility evaluation present
-- Save output to `.claude/skills/evals/iteration-1/eval-1-challenge-ready/with_skill/outputs/output.md`
+Read these files first for context on what changed:
+- `continuous-improvement/task.md` — what was implemented
+- `.claude/skills/evals/evals.json` — 6 eval cases with 29 assertions (draft — refine as needed)
+- `.claude/skills/evals/iteration-1/` — evals 2 and 3 already passed (challenge BLOCKED, copyedit cold read)
 
-**Eval 4: /publish cut list**
-- Run `/publish lessons/05-the-infrastructure-gap.md`
-- Verify: output contains Core message status
-- Verify: output contains `## Cut List` section
-- Verify: at least one cut tagged `[Scaffold-only]`
-- Verify: output asks for approval before /copyedit
-- Verify: checks opening against Simple + Unexpected
-- Save output to `.claude/skills/evals/iteration-1/eval-4-publish-cutlist/with_skill/outputs/output.md`
+### What to do
 
-**Eval 5: /think-through SUCCESS criteria**
-- Run `/think-through lessons/05-the-infrastructure-gap.md`
-- Verify: output contains 3 specific questions for the author
-- Verify: evaluates whether lesson is Unexpected enough to hook
-- Verify: identifies a Concrete moment
-- Verify: references or refines the core message
-- Save output to `.claude/skills/evals/iteration-1/eval-5-think-through-success/with_skill/outputs/output.md`
+For each of the 6 skills, use /skill-creator's eval loop:
 
-**Eval 6: /review 4-agent panel**
-- Run `/review lessons/05-the-infrastructure-gap.md`
-- Verify: output contains feedback from 4 distinct agents (Skeptic, Outside Reader, PM Peer, Leadership Expert)
-- Verify: Leadership Expert section exists with 3 ranked feedback items
-- Verify: synthesis has top 5 changes with at least one tagged (patch/restructure/rethink)
-- Verify: core message referenced in agent evaluations
-- Save output to `.claude/skills/evals/iteration-1/eval-6-review-4agent/with_skill/outputs/output.md`
+1. **Review the existing test cases** in `evals/evals.json`. Refine if needed — the skill-creator may suggest better test prompts.
 
-For each eval, run the skill as a subagent, save the output, then grade against the assertions. Report results as a table:
+2. **Run each eval** — spawn agents with the skill to execute the test prompt on `lessons/05-the-infrastructure-gap.md` (for scaffold-stage skills) or `lessons/05-substack-draft.md` (for /copyedit).
 
-| Eval | Skill | Assertions | Pass/Fail |
-|------|-------|------------|-----------|
+3. **Grade against assertions** — use the skill-creator's grading flow. Key assertions to verify:
+   - Core message BLOCKED status works (challenge, draft, review, publish)
+   - SUCCESS criteria evaluated (think-through: Unexpected+Concrete, draft: Emotional+Story, publish: Simple+Unexpected, challenge: Credible)
+   - Phase 2 debate agents spawn in /challenge
+   - 4 agents appear in /review (including Leadership Expert)
+   - Cut list with [Scaffold-only] and [Content-cut] tags in /publish
+   - /copyedit produces line edits + SEO fields without referencing scaffold
 
-If any eval fails, note which assertion failed and why. Do NOT fix the skill in this session — just report. Fixes happen in a separate iteration.
+4. **Use the eval viewer** to review results qualitatively.
 
-After all 4 pass, commit the eval results and update `continuous-improvement/task.md` to mark all evals complete.
+5. **If any skill fails:** iterate using /skill-creator's improvement loop (edit skill → re-run → re-grade).
+
+6. **After all pass:** run /skill-creator's description optimization on each skill to improve triggering accuracy.
+
+### Priority order
+
+Start with the highest-risk skills (most changes):
+1. /challenge (BLOCKED + Credible + Phase 2 debate agents — 3 new behaviors)
+2. /review (BLOCKED + 4 agents + core message anchoring + change tagging)
+3. /publish (BLOCKED + SUCCESS voice check + cut list + gate)
+4. /copyedit (entirely new skill)
+5. /draft (BLOCKED + SUCCESS emotional check + stale core message detection)
+6. /think-through (SUCCESS hook check + core message output)
+
+### Done when
+
+- All 6 skills pass their eval assertions
+- Descriptions optimized for triggering accuracy
+- Results saved to `.claude/skills/evals/iteration-N/`
