@@ -16,7 +16,7 @@ Writing these lessons is how I process what I've learned. The act of articulatin
 2. [Helping designers prototype with Claude Code](lessons/02-designers-prototyping-with-claude-code.md) — Early experiments in enabling non-engineers to use Claude Code for UI prototyping.
 3. [When planning-first becomes a trap](lessons/03-when-planning-first-becomes-a-trap.md) — The PM instinct to plan thoroughly works when feedback is fast. When it's not, the same instinct inflates complexity instead of compressing decisions.
 4. [You can't engineer AI adoption](lessons/04-you-cant-engineer-ai-adoption.md) — Trying to get the product team to use AI tools. Technical background doesn't predict adoption, forcing mostly doesn't work, and I can't identify the mechanism.
-5. _The old safety net is gone and we don't have a replacement yet._ (future)
+5. [The infrastructure gap](lessons/05-the-infrastructure-gap.md) — The gap between "using AI" and "using AI well" isn't features or willingness — it's months of accumulated infrastructure you can't see from the inside.
 
 ## About
 
