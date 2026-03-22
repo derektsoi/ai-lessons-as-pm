@@ -76,7 +76,7 @@ This file is @imported by CLAUDE.md. It provides detailed entry/exit criteria an
 - **Process:** Manual — paste into Substack editor, paste SEO fields, publish
 - **Exit:** URL recorded in scaffold file. Status updated to Published.
 
-## Step 10: /retro
+## Step 10: Retro
 - **Entry:** Lesson published (or publishing decision made)
 - **Process:** What worked, what didn't, ideas vs outcome, implementation proposals
 - **Exit:** `continuous-improvement/lesson-XX-retro.md` created
